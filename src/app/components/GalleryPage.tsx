@@ -55,11 +55,11 @@ const GalleryPage: React.FC = () => {
   );
   const containerRef = useRef<HTMLDivElement>(null);
 
-  const handleDragStart = (_: any, info: PanInfo) => {
+  const handleDragStart = (_: unknown, info: PanInfo) => {
     setDragStart(info.point.x);
   };
-
-  const handleDragEnd = (_: any, info: PanInfo) => {
+  
+  const handleDragEnd = (_: unknown, info: PanInfo) => {
     const activePhotos = photos || placeholderPhotos;
     const dragDistance = info.point.x - dragStart;
     if (Math.abs(dragDistance) > SWIPE_THRESHOLD) {
@@ -75,10 +75,11 @@ const GalleryPage: React.FC = () => {
     }
     setDragOffset(0);
   };
-
-  const handleDrag = (_: any, info: PanInfo) => {
+  
+  const handleDrag = (_: unknown, info: PanInfo) => {
     setDragOffset(info.point.x - dragStart);
   };
+  
 
   if (isError) {
     return (

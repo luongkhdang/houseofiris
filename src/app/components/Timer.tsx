@@ -1,10 +1,11 @@
-// src/app/components/Timer.tsx
 "use client";
 
 import React, { useEffect, useState } from "react";
 
+// Move targetDate outside the component to avoid re-creating it
+const targetDate = new Date("2024-12-11T14:00:00+07:00"); // 11 Dec 2024, 2:00 PM, Vietnam Timezone
+
 const Timer: React.FC = () => {
-  const targetDate = new Date("2024-12-11T14:00:00+07:00"); // 11 Dec 2024, 2:00 PM, Vietnam Timezone
   const [elapsedTime, setElapsedTime] = useState<string>("");
 
   useEffect(() => {
@@ -29,7 +30,7 @@ const Timer: React.FC = () => {
     const intervalId = setInterval(updateTimer, 1000); // Update every second
 
     return () => clearInterval(intervalId); // Cleanup on unmount
-  }, []);
+  }, []); // No need for `targetDate` in the dependency array
 
   return (
     <div

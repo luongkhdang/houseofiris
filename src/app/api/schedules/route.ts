@@ -2,13 +2,19 @@ import { NextResponse } from "next/server";
 import fs from "fs";
 import path from "path";
 
+// Define the interface for a schedule
+interface Schedule {
+  date: string;
+  [key: string]: any; // Additional fields if applicable
+}
+
 // Path to the schedules.json file
 const dataFilePath = path.join(process.cwd(), "data", "schedules.json");
 
 export async function GET() {
   try {
     const data = fs.readFileSync(dataFilePath, "utf8");
-    const schedules = JSON.parse(data);
+    const schedules: Schedule[] = JSON.parse(data);
     return NextResponse.json(schedules);
   } catch (error) {
     console.error("Error reading schedules:", error);
@@ -18,9 +24,9 @@ export async function GET() {
 
 export async function POST(req: Request) {
   try {
-    const body = await req.json();
+    const body: Schedule = await req.json();
     const data = fs.readFileSync(dataFilePath, "utf8");
-    const schedules = JSON.parse(data);
+    const schedules: Schedule[] = JSON.parse(data);
 
     // Add new schedule
     schedules.push(body);
@@ -35,12 +41,12 @@ export async function POST(req: Request) {
 
 export async function DELETE(req: Request) {
   try {
-    const { date } = await req.json();
+    const { date }: { date: string } = await req.json();
     const data = fs.readFileSync(dataFilePath, "utf8");
-    const schedules = JSON.parse(data);
+    const schedules: Schedule[] = JSON.parse(data);
 
     // Filter out the schedule to delete
-    const updatedSchedules = schedules.filter((schedule: any) => schedule.date !== date);
+    const updatedSchedules = schedules.filter((schedule) => schedule.date !== date);
 
     // Write updated schedules back to the file
     fs.writeFileSync(dataFilePath, JSON.stringify(updatedSchedules, null, 2));
