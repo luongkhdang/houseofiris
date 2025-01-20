@@ -20,7 +20,9 @@ interface Schedule {
 }
 
 const SecondPage: React.FC<SecondPageProps> = ({ onNext }) => {
-  const [view, setView] = useState<"pictures" | "feedback" | "schedule">("pictures");
+  const [view, setView] = useState<"pictures" | "feedback" | "schedule">(
+    "pictures"
+  );
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
   const [note, setNote] = useState("");
   const [feedback, setFeedback] = useState("");
@@ -42,7 +44,8 @@ const SecondPage: React.FC<SecondPageProps> = ({ onNext }) => {
     }
 
     const serviceId = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID;
-    const templateId = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID || "default_template";
+    const templateId =
+      process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID || "default_template";
 
     if (!serviceId || !emailjsPublicKey) {
       console.error("EmailJS configuration is missing");
@@ -53,8 +56,16 @@ const SecondPage: React.FC<SecondPageProps> = ({ onNext }) => {
     setIsSubmitting(true);
 
     try {
-      const templateParams = { message: feedback, to_email: "Luongdang0701@gmail.com" };
-      await emailjs.send(serviceId, templateId, templateParams, emailjsPublicKey);
+      const templateParams = {
+        message: feedback,
+        to_email: "Luongdang0701@gmail.com",
+      };
+      await emailjs.send(
+        serviceId,
+        templateId,
+        templateParams,
+        emailjsPublicKey
+      );
       alert("Your feedback has been sent!");
       setFeedback("");
     } catch (error) {
@@ -94,7 +105,9 @@ const SecondPage: React.FC<SecondPageProps> = ({ onNext }) => {
     })
       .then((res) => res.json())
       .then(() => {
-        setSchedules((prev) => prev.filter((schedule) => schedule.date !== date)); // Update state in real-time
+        setSchedules((prev) =>
+          prev.filter((schedule) => schedule.date !== date)
+        ); // Update state in real-time
       })
       .catch((err) => console.error("Failed to delete schedule:", err));
   };
@@ -103,20 +116,26 @@ const SecondPage: React.FC<SecondPageProps> = ({ onNext }) => {
     <div className="p-4 max-w-2xl mx-auto">
       {/* Toggle Switcher */}
       <div className="flex gap-4 mb-6">
-        <button 
-          className={`px-4 py-2 rounded ${view === "pictures" ? "bg-blue-500 text-white" : "bg-gray-200"}`}
+        <button
+          className={`px-4 py-2 rounded ${
+            view === "pictures" ? "bg-blue-500 text-white" : "bg-gray-200"
+          }`}
           onClick={() => setView("pictures")}
         >
           Pictures
         </button>
-        <button 
-          className={`px-4 py-2 rounded ${view === "feedback" ? "bg-blue-500 text-white" : "bg-gray-200"}`}
+        <button
+          className={`px-4 py-2 rounded ${
+            view === "feedback" ? "bg-blue-500 text-white" : "bg-gray-200"
+          }`}
           onClick={() => setView("feedback")}
         >
           Feedback
         </button>
-        <button 
-          className={`px-4 py-2 rounded ${view === "schedule" ? "bg-blue-500 text-white" : "bg-gray-200"}`}
+        <button
+          className={`px-4 py-2 rounded ${
+            view === "schedule" ? "bg-blue-500 text-white" : "bg-gray-200"
+          }`}
           onClick={() => setView("schedule")}
         >
           Schedule a Date
@@ -127,7 +146,7 @@ const SecondPage: React.FC<SecondPageProps> = ({ onNext }) => {
       {view === "pictures" && (
         <div className="space-y-4">
           <h1 className="text-2xl font-bold">Hai đứa mình !</h1>
-          <button 
+          <button
             className="bg-blue-500 text-white px-6 py-2 rounded hover:bg-blue-600"
             onClick={onNext}
           >
@@ -146,7 +165,7 @@ const SecondPage: React.FC<SecondPageProps> = ({ onNext }) => {
             value={feedback}
             onChange={(e) => setFeedback(e.target.value)}
           />
-          <button 
+          <button
             className="bg-blue-500 text-white px-6 py-2 rounded hover:bg-blue-600 disabled:bg-gray-400"
             onClick={sendFeedback}
             disabled={isSubmitting}
@@ -160,14 +179,24 @@ const SecondPage: React.FC<SecondPageProps> = ({ onNext }) => {
       {view === "schedule" && (
         <div className="space-y-4">
           <h1 className="text-2xl font-bold">Pick a date</h1>
-          <Calendar onChange={setSelectedDate} value={selectedDate} />
+          <Calendar
+            onChange={(value) => {
+              if (value instanceof Date) {
+                setSelectedDate(value);
+              } else if (Array.isArray(value)) {
+                // Handle date range if needed (e.g., use value[0] or value[1])
+                setSelectedDate(value[0]); // Choose one date from the range
+              }
+            }}
+            value={selectedDate}
+          />
           <textarea
             className="w-full p-2 border rounded min-h-[100px]"
             placeholder="Add a note or schedule here..."
             value={note}
             onChange={(e) => setNote(e.target.value)}
           />
-          <button 
+          <button
             className="bg-blue-500 text-white px-6 py-2 rounded hover:bg-blue-600"
             onClick={saveSchedule}
           >
@@ -181,7 +210,7 @@ const SecondPage: React.FC<SecondPageProps> = ({ onNext }) => {
                 <span>
                   {new Date(schedule.date).toDateString()}: {schedule.note}
                 </span>
-                <button 
+                <button
                   className="text-red-500 hover:underline ml-4"
                   onClick={() => deleteSchedule(schedule.date)}
                 >
