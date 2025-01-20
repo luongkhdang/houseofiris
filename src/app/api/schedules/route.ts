@@ -5,7 +5,14 @@ import path from "path";
 // Define the interface for a schedule
 interface Schedule {
   date: string;
-  [key: string]: any; // Additional fields if applicable
+  title?: string;
+  description?: string;
+  startTime?: string;
+  endTime?: string;
+  participants?: string[];
+  location?: string;
+  status?: 'scheduled' | 'cancelled' | 'completed';
+  metadata?: Record<string, string | number | boolean>;
 }
 
 // Path to the schedules.json file
