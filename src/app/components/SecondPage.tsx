@@ -86,6 +86,19 @@ const SecondPage: React.FC<SecondPageProps> = ({ onNext }) => {
     }
   };
 
+  const deleteSchedule = (date: string) => {
+    fetch("/api/schedules", {
+      method: "DELETE",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ date }),
+    })
+      .then((res) => res.json())
+      .then(() => {
+        setSchedules((prev) => prev.filter((schedule) => schedule.date !== date)); // Update state in real-time
+      })
+      .catch((err) => console.error("Failed to delete schedule:", err));
+  };
+
   return (
     <div className="p-4 max-w-2xl mx-auto">
       {/* Toggle Switcher */}
@@ -113,7 +126,7 @@ const SecondPage: React.FC<SecondPageProps> = ({ onNext }) => {
       {/* Pictures Section */}
       {view === "pictures" && (
         <div className="space-y-4">
-          <h1 className="text-2xl font-bold">Explore Pictures</h1>
+          <h1 className="text-2xl font-bold">Hai đứa mình !</h1>
           <button 
             className="bg-blue-500 text-white px-6 py-2 rounded hover:bg-blue-600"
             onClick={onNext}
@@ -164,8 +177,16 @@ const SecondPage: React.FC<SecondPageProps> = ({ onNext }) => {
           <h2 className="text-xl font-bold">Saved Schedules</h2>
           <ul>
             {schedules.map((schedule, index) => (
-              <li key={index}>
-                {new Date(schedule.date).toDateString()}: {schedule.note}
+              <li key={index} className="flex justify-between items-center">
+                <span>
+                  {new Date(schedule.date).toDateString()}: {schedule.note}
+                </span>
+                <button 
+                  className="text-red-500 hover:underline ml-4"
+                  onClick={() => deleteSchedule(schedule.date)}
+                >
+                  X
+                </button>
               </li>
             ))}
           </ul>
