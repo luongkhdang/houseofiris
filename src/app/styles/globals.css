@@ -50,7 +50,7 @@ body, p, h1, h2, h3, h4, h5, h6 {
 /* Timer styles remain unchanged */
 .timer {
   position: fixed;
-  bottom: 1rem;
+  bottom: calc(1rem + 5vh);
   left: 1rem;
   background-color: rgba(0, 0, 0, 0.8);
   color: white;
