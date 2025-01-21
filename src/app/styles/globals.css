@@ -12,13 +12,14 @@ html, body {
   justify-content: center; /* Center content horizontally */
   align-items: center;    /* Center content vertically */
   overflow: hidden;       /* Prevent unwanted scrollbars */
+  transform: translateY(-5vh);
 }
 /* Ensure elements scale properly and fit within the iPhone screen */
 * {
   box-sizing: border-box;
 }
 
-/* Define a container for responsive scaling */
+/* Define a container for responsive scaling 430 932 */
 .container {
   max-width: 390px;
   max-height: 844px;
