@@ -9,6 +9,8 @@ const Timer: React.FC = () => {
   const [elapsedTime, setElapsedTime] = useState<string>("");
 
   useEffect(() => {
+    console.log('Timer mounted'); // Debug mount
+    
     const updateTimer = () => {
       const now = new Date();
       const difference = now.getTime() - targetDate.getTime();
@@ -29,15 +31,18 @@ const Timer: React.FC = () => {
     updateTimer(); // Initialize immediately
     const intervalId = setInterval(updateTimer, 1000); // Update every second
 
-    return () => clearInterval(intervalId); // Cleanup on unmount
+    return () => {
+      console.log('Timer unmounted'); // Debug unmount
+      clearInterval(intervalId);
+    };
   }, []); // No need for `targetDate` in the dependency array
 
   return (
-    <div
-      className="timer whitespace-pre-line" // `whitespace-pre-line` ensures line breaks from `\n` are rendered
-    >
-      {elapsedTime}
-    </div>
+    <>
+      <div className="timer whitespace-pre-line">
+        {elapsedTime}
+      </div>
+    </>
   );
 };
 
