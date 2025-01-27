@@ -83,7 +83,7 @@ body, p, h1, h2, h3, h4, h5, h6 {
 
 .text-description {
   position: fixed;
-  top: 60vh;
+  top: 65vh;
   left: 0;
   width: 100%;
   background-color: rgba(0, 0, 0, 0); /* Semi-transparent background */
@@ -95,5 +95,5 @@ body, p, h1, h2, h3, h4, h5, h6 {
   pointer-events: none; /* Optional: Prevent it from blocking clicks */
   white-space: pre-line;
   padding-right: 2rem; /* Add some spacing from the right edge */
-  opacity: 0.7;
+  opacity: 0.8;
 }
