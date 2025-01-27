@@ -31,6 +31,9 @@ interface Photo {
 
 
 
+
+
+
 export async function GET() {
   try {
     const { resources } = await cloudinary.search
@@ -53,6 +56,24 @@ export async function GET() {
       date: resource.context?.Date || null, // Fetch 'Date' from context
       location: resource.context?.Location || null, // Fetch 'Location' from context
     }));
+
+    // Helper function to parse `dd/mm/yyyy` into a Date object
+    const parseDate = (date: string) => {
+      const [day, month, year] = date.split("/").map(Number);
+      return new Date(year, month - 1, day); // Month is zero-based in JS Date
+    };
+
+    // Sort photos to prioritize those with `date` and then sort by descending order
+    photos.sort((a, b) => {
+      // Prioritize by presence of `date`
+      if (a.date && !b.date) return -1; // `a` has `date`, but `b` does not
+      if (!a.date && b.date) return 1; // `b` has `date`, but `a` does not
+
+      // If both have `date`, or both don't have `date`, sort by date or created_at
+      const dateA = a.date ? parseDate(a.date).getTime() : new Date(a.created_at).getTime();
+      const dateB = b.date ? parseDate(b.date).getTime() : new Date(b.created_at).getTime();
+      return dateB - dateA; // Sort descending
+    });
 
     return NextResponse.json(photos);
   } catch (error) {
