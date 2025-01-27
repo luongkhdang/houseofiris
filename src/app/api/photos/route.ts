@@ -24,7 +24,6 @@ interface Photo {
   height: number;
   created_at: string;
   title?: string | null; // Allow null
-  description?: string | null; // Allow null
   date?: string | null; // Allow null
   location?: string | null; // Allow null
 }
