@@ -12,8 +12,7 @@ type Photo = {
   width: number;
   height: number;
   created_at: string;
-  title?: string; // Optional property
-  description?: string; // Optional property
+  title?: string; // Optional property 
   date?: string; // Optional property
   location?: string; // Optional property
 };
@@ -183,8 +182,7 @@ const GalleryPage: React.FC = () => {
                 priority={true}
               />
               <div className="text-overlay">
-                <p>{currentPhoto.title || "Untitled"}</p>
-                <p>{currentPhoto.description || "No description available"}</p>
+                <p>{currentPhoto.title || "Untitled"}</p> 
                 <p>{currentPhoto.date || "Date not provided"}</p>
                 <p>{currentPhoto.location || "Location not available"}</p>
               </div>
