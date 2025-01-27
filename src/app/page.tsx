@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import { usePage } from "./hooks/usePage";
 import HomePage from "./components/HomePage";
-import SecondPage from "./components/SecondPage";
+import SecondPage from "./components/SecondPage/";
 import GalleryPage from "./components/GalleryPage";
 import JailPage from "./components/JailPage";
 

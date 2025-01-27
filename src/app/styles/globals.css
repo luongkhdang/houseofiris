@@ -1,6 +1,6 @@
 /* globals.css */
 
-/* Set global background and text colors */
+/* Original global styles */
 html, body {
   background-color: black;
   color: white;
@@ -18,8 +18,8 @@ html, body {
   box-sizing: border-box;
 }
 
-/* Define a container for responsive scaling 430 932 */
-.container {
+/* Original container styles - exclude SecondPage */
+:not(.second-page-container).container {
   max-width: 390px;
   max-height: 844px;
   width: 100%;
@@ -30,27 +30,10 @@ html, body {
   align-items: center;
 }
 
-.shift-container {
-  transform: translateY(-5vh);
-}
-
-
-.scrollable {
-  overflow-y: auto;
-  -webkit-overflow-scrolling: touch;
-}
-
-body, p, h1, h2, h3, h4, h5, h6 {
-  margin: 0;
-  padding: 0;
-  line-height: 1.5;
-  word-wrap: break-word;
-}
-
-/* Timer styles remain unchanged */
+/* Timer styles - keep these global */
 .timer {
   position: fixed;
-  bottom: calc(1rem  );
+  bottom: calc(1rem);
   left: 1rem;
   background-color: rgba(0, 0, 0, 0.8);
   color: white;
@@ -66,7 +49,7 @@ body, p, h1, h2, h3, h4, h5, h6 {
 
 .timer-top-right {
   position: fixed;
-  top: calc(1rem  );
+  top: calc(1rem);
   right: 1rem;
   background-color: rgba(0, 0, 0, 0.8);
   color: white;
@@ -86,13 +69,109 @@ body, p, h1, h2, h3, h4, h5, h6 {
   top: 65vh;
   left: 0;
   width: 100%;
-  background-color: rgba(0, 0, 0, 0); /* Semi-transparent background */
-  color: white; /* Fully opaque text */
+  background-color: rgba(0, 0, 0, 0);
+  color: white;
   padding: 1rem 0;
   font-size: 0.75rem;
-  text-align: right; /* Align text to the right */
+  text-align: right;
   z-index: 9999;
-  pointer-events: none; /* Optional: Prevent it from blocking clicks */
+  pointer-events: none;
   white-space: pre-line;
-  padding-right: 2rem; /* Add some spacing from the right edge */
+  padding-right: 2rem;
+}
+
+/* SecondPage specific styles */
+.second-page-wrapper {
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background-color: black;
+  overflow: hidden;
+  display: block;
+}
+
+.second-page-wrapper .second-page-container {
+  width: 100%;
+  height: 100%;
+  max-width: 390px;
+  max-height: 844px;
+  margin: 0 auto;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.second-page-wrapper .view-selector {
+  position: absolute;
+  top: 15vh;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 50;
+  display: flex;
+  gap: 0.75rem;
+  padding: 0.5rem;
+  background-color: rgba(0, 0, 0, 0.8);
+  border-radius: 1rem;
+  backdrop-filter: blur(8px);
+  width: 90%;
+  max-width: 360px;
+}
+
+.second-page-wrapper .view-selector__button {
+  flex: 1;
+  padding: 0.5rem 1rem;
+  border-radius: 0.75rem;
+  background-color: rgba(255, 255, 255, 0.1);
+  color: white;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  transition: all 0.3s ease;
+  font-size: 0.875rem;
+}
+
+.second-page-wrapper .view-selector__button:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+.second-page-wrapper .view-selector__button--active {
+  background-color: rgba(255, 255, 255, 0.3);
+  border-color: rgba(255, 255, 255, 0.4);
+}
+
+.second-page-wrapper .view-container {
+  margin-top: calc(15vh + 4rem);
+  padding: 1rem;
+  height: calc(85vh - 4rem);
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Calendar styles */
+.second-page-wrapper .react-calendar {
+  background-color: rgba(0, 0, 0, 0.8);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 0.75rem;
+  color: white;
+  width: 100%;
+}
+
+.second-page-wrapper .react-calendar button {
+  color: white;
+}
+
+.second-page-wrapper .react-calendar__tile--active {
+  background-color: rgba(255, 255, 255, 0.3) !important;
+}
+
+.second-page-wrapper .react-calendar__tile--now {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.second-page-wrapper .react-calendar__navigation button:enabled:hover,
+.second-page-wrapper .react-calendar__navigation button:enabled:focus,
+.second-page-wrapper .react-calendar__tile:enabled:hover,
+.second-page-wrapper .react-calendar__tile:enabled:focus {
+  background-color: rgba(255, 255, 255, 0.2);
 }

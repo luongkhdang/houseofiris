@@ -70,16 +70,16 @@ const HomePage: React.FC<HomePageProps> = ({ onNext, onJail }) => {
               className="p-4 border border-white rounded"
               onClick={handleALittleClick}
             >
-              A little
+              🙀 A little
             </button>
 
             {/* "A Lot" Button */}
             <button
               className="p-4 border border-white rounded"
-              style={{ fontSize: `${1 + clickCount * 0.2}rem` }}
+              style={{ fontSize: `${0.8 + clickCount * 0.3}rem` }}
               onClick={handleALotClick}
             >
-              A lot
+              I love you a lot 💕
             </button>
           </div>
         </>
