@@ -12,6 +12,10 @@ type Photo = {
   width: number;
   height: number;
   created_at: string;
+  title?: string; // Optional property
+  description?: string; // Optional property
+  date?: string; // Optional property
+  location?: string; // Optional property
 };
 
 const placeholderPhotos: Photo[] = [
