@@ -44,6 +44,7 @@ const HomePage: React.FC<HomePageProps> = ({ onNext, onJail }) => {
         {exploding && (
           <motion.div
             className="absolute inset-0 bg-red-500 flex items-center justify-center text-black text-4xl font-bold"
+            style={{ zIndex: 10 }} // Lower z-index than the timer
             initial={{ scale: 1, opacity: 1 }}
             animate={{
               scale: [1, 2, 3],
