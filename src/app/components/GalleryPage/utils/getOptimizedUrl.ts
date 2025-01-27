@@ -6,7 +6,7 @@ export const getOptimizedUrl = (url: string): { mainUrl: string; secondaryUrl: s
     ),
     secondaryUrl: url.replace(
       "/upload/",
-      `/upload/q_auto:low,f_auto,w_200,h_200,c_fill,g_auto/`
+      `/upload/q_auto:low,f_auto,w_400,h_400,c_fill,g_auto/`
     ),
   };
 };

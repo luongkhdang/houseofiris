@@ -28,6 +28,8 @@ html, body {
   display: flex;
   justify-content: center;
   align-items: center;
+  position: relative; /* Add this */
+  top: -10vh; /* Move the container up by 10vh */
 }
 
 /* Timer styles - keep these global */
@@ -66,7 +68,7 @@ html, body {
 
 .text-description {
   position: fixed;
-  top: 65vh;
+  top: 55vh;
   left: 0;
   width: 100%;
   background-color: rgba(0, 0, 0, 0);
