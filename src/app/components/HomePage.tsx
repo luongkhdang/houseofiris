@@ -39,20 +39,26 @@ const HomePage: React.FC<HomePageProps> = ({ onNext, onJail }) => {
 
   return (
     <div className="relative flex flex-col items-center justify-center h-screen bg-black text-white font-mono overflow-hidden">
-<AnimatePresence>
-  {exploding && (
-    <motion.div
-      className="motion-div"
-      initial={{ scale: 1, opacity: 1 }}
-      animate={{ scale: [1, 2, 3], opacity: [1, 0.8, 0] }}
-      exit={{ opacity: 0 }}
-      transition={{ duration: 2, ease: "easeInOut" }}
-    >
-      💥 BOOOOOOOM!!! 💥
-    </motion.div>
-  )}
-</AnimatePresence>
-
+      <AnimatePresence>
+        {/* Explosion Effect */}
+        {exploding && (
+          <motion.div
+            className="absolute inset-0 bg-red-500 flex items-center justify-center text-black text-4xl font-bold"
+            initial={{ scale: 1, opacity: 1 }}
+            animate={{
+              scale: [1, 2, 3],
+              opacity: [1, 0.8, 0],
+            }}
+            exit={{ opacity: 0 }}
+            transition={{
+              duration: 2,
+              ease: "easeInOut",
+            }}
+          >
+            💥 BOOOOOOOM!!! 💥 {"⎛⎝ ≽ > ⩊ < ≼ ⎠⎞"}
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       {/* Main Content */}
       {!exploding && (

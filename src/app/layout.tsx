@@ -17,7 +17,10 @@ export default function RootLayout({
     <html lang="en">
       <body>
         <QueryClientProvider client={queryClient}>
-          {children}
+        <div className="shift-container">
+  {children}
+</div>
+
           <Timer />
           <Timers />
         </QueryClientProvider>
