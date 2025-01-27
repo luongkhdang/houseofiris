@@ -12,7 +12,8 @@ type Photo = {
   width: number;
   height: number;
   created_at: string;
-  title?: string; // Optional property 
+  title?: string; // Optional property
+ 
   date?: string; // Optional property
   location?: string; // Optional property
 };
@@ -181,11 +182,7 @@ const GalleryPage: React.FC = () => {
                 }}
                 priority={true}
               />
-              <div className="text-overlay">
-                <p>{currentPhoto.title || "Untitled"}</p> 
-                <p>{currentPhoto.date || "Date not provided"}</p>
-                <p>{currentPhoto.location || "Location not available"}</p>
-              </div>
+
             </motion.div>
           </AnimatePresence>
         </motion.div>
@@ -213,6 +210,22 @@ const GalleryPage: React.FC = () => {
           />
         </motion.div>
       </div>
+
+      <div className="h-screen w-full sm:w-[390px] sm:h-[844px] bg-black overflow-hidden">
+  {/* Other elements */}
+
+  {/* Fullscreen Text Description */}
+  <div className="text-description">
+    <p>{currentPhoto.title || "Untitled"}</p>
+    <p>{currentPhoto.date || "Date not provided"}</p>
+    <p>{currentPhoto.location || "Location not available"}</p>
+  </div>
+
+  {/* Rest of the page */}
+</div>
+
+
+
 
       {/* Progress Indicator */}
       <div className="absolute bottom-8 left-0 right-0 flex justify-center gap-2">
