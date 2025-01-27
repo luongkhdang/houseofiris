@@ -40,7 +40,8 @@ const HomePage: React.FC<HomePageProps> = ({ onNext, onJail }) => {
   return (
     <div className="relative flex flex-col items-center justify-center h-screen bg-black text-white font-mono overflow-hidden">
       <AnimatePresence>
-        {exploding ? (
+        {/* Explosion Effect */}
+        {exploding && (
           <motion.div
             className="absolute inset-0 bg-red-500 flex items-center justify-center text-black text-4xl font-bold"
             initial={{ scale: 1, opacity: 1 }}
@@ -56,31 +57,33 @@ const HomePage: React.FC<HomePageProps> = ({ onNext, onJail }) => {
           >
             💥 BOOOOOOOM!!! 💥 {"⎛⎝ ≽ > ⩊ < ≼ ⎠⎞"}
           </motion.div>
-        ) : (
-          <motion.div
-            initial={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="flex flex-col items-center"
-          >
-            <h1 className="text-3xl mb-6">Do you love me?</h1>
-            <div className="flex gap-4">
-              <button
-                className="p-4 border border-white rounded"
-                onClick={handleALittleClick}
-              >
-                A little
-              </button>
-              <button
-                className="p-4 border border-white rounded"
-                style={{ fontSize: `${1 + clickCount * 0.2}rem` }}
-                onClick={handleALotClick}
-              >
-                A lot
-              </button>
-            </div>
-          </motion.div>
         )}
       </AnimatePresence>
+
+      {/* Main Content */}
+      {!exploding && (
+        <>
+          <h1 className="text-3xl mb-6">Do you love me?</h1>
+          <div className="flex gap-4">
+            {/* "A Little" Button */}
+            <button
+              className="p-4 border border-white rounded"
+              onClick={handleALittleClick}
+            >
+              A little
+            </button>
+
+            {/* "A Lot" Button */}
+            <button
+              className="p-4 border border-white rounded"
+              style={{ fontSize: `${1 + clickCount * 0.2}rem` }}
+              onClick={handleALotClick}
+            >
+              A lot
+            </button>
+          </div>
+        </>
+      )}
     </div>
   );
 };

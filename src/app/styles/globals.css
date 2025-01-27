@@ -31,9 +31,10 @@ html, body {
 }
 
 /* Add this new rule to move content up */
-html, body > *:not(.timer):not(.timer-top-right) {
+html, body > *:not(.timer):not(.timer-top-right):not(.motion-div) {
   transform: translateY(-5vh);
 }
+
 
 .scrollable {
   overflow-y: auto;
@@ -80,6 +81,11 @@ body, p, h1, h2, h3, h4, h5, h6 {
   white-space: pre-line;
   text-align: right;
 }
+
+.motion-div {
+  z-index: 9000;
+}
+
 
 .text-description {
   position: fixed;
