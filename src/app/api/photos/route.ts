@@ -23,7 +23,13 @@ interface Photo {
   width: number;
   height: number;
   created_at: string;
+  title?: string | null; // Allow null
+  description?: string | null; // Allow null
+  date?: string | null; // Allow null
+  location?: string | null; // Allow null
 }
+
+
 
 export async function GET() {
   try {
@@ -42,6 +48,10 @@ export async function GET() {
       width: resource.width,
       height: resource.height,
       created_at: resource.created_at,
+      title: resource.context?.alt || null, // Fetch 'alt' from context
+      description: resource.context?.caption || null, // Fetch 'caption' from context
+      date: resource.context?.Date || null, // Fetch 'Date' from context
+      location: resource.context?.Location || null, // Fetch 'Location' from context
     }));
 
     return NextResponse.json(photos);

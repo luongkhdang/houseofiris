@@ -58,7 +58,7 @@ const GalleryPage: React.FC = () => {
   const handleDragStart = (_: unknown, info: PanInfo) => {
     setDragStart(info.point.x);
   };
-  
+
   const handleDragEnd = (_: unknown, info: PanInfo) => {
     const activePhotos = photos || placeholderPhotos;
     const dragDistance = info.point.x - dragStart;
@@ -75,11 +75,10 @@ const GalleryPage: React.FC = () => {
     }
     setDragOffset(0);
   };
-  
+
   const handleDrag = (_: unknown, info: PanInfo) => {
     setDragOffset(info.point.x - dragStart);
   };
-  
 
   if (isError) {
     return (
@@ -165,22 +164,26 @@ const GalleryPage: React.FC = () => {
               exit={{ opacity: 0, scale: 1.2 }}
               transition={{ duration: 0.3 }}
             >
-               
-                <Image
-                  unoptimized
-                  src={getOptimizedUrl(currentPhoto.url, true)}
-                  alt={`Photo ${currentIndex + 1} of ${activePhotos.length}`}
-                  width={380}
-                  height={380}
-                  className="rounded-xl shadow-lg object-contain"
-                  style={{
-                    maxHeight: "70vh",
-                    width: "auto",
-                    objectFit: "contain",
-                  }}
-                  priority={true}
-                />
-               
+              <Image
+                unoptimized
+                src={getOptimizedUrl(currentPhoto.url, true)}
+                alt={`Photo ${currentIndex + 1} of ${activePhotos.length}`}
+                width={380}
+                height={380}
+                className="rounded-xl shadow-lg object-contain"
+                style={{
+                  maxHeight: "70vh",
+                  width: "auto",
+                  objectFit: "contain",
+                }}
+                priority={true}
+              />
+              <div className="text-overlay">
+                <p>{currentPhoto.title || "Untitled"}</p>
+                <p>{currentPhoto.description || "No description available"}</p>
+                <p>{currentPhoto.date || "Date not provided"}</p>
+                <p>{currentPhoto.location || "Location not available"}</p>
+              </div>
             </motion.div>
           </AnimatePresence>
         </motion.div>
@@ -220,7 +223,6 @@ const GalleryPage: React.FC = () => {
           />
         ))}
       </div>
-      
     </div>
   );
 };
