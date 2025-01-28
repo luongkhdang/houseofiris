@@ -7,9 +7,10 @@ type PhotoProps = {
   photo: PhotoType;
   position: "left" | "center" | "right";
   isCurrent: boolean;
+  dragOffset?: number; // Add dragOffset to the type definition
 };
 
-const Photo: React.FC<PhotoProps> = ({ photo, position, isCurrent }) => {
+const Photo: React.FC<PhotoProps> = ({ photo, position, isCurrent, dragOffset = 0 }) => {
   const [isZoomed, setIsZoomed] = useState(false);
 
   const handleZoomToggle = () => {
@@ -19,9 +20,9 @@ const Photo: React.FC<PhotoProps> = ({ photo, position, isCurrent }) => {
   };
 
   const variants = {
-    left: { scale: 0.8, x: -120, opacity: 0.5 },
-    center: { scale: 1, x: 0, opacity: 1 },
-    right: { scale: 0.8, x: 120, opacity: 0.5 },
+    left: { scale: 0.8, x: -120 + dragOffset, opacity: 0.5 }, // Adjust x with dragOffset
+    center: { scale: 1, x: 0 + dragOffset, opacity: 1 }, // Adjust x with dragOffset
+    right: { scale: 0.8, x: 120 + dragOffset, opacity: 0.5 }, // Adjust x with dragOffset
   };
 
   return (
