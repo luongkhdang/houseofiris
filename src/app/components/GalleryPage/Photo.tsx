@@ -10,12 +10,20 @@ type PhotoProps = {
   dragOffset?: number; // Add dragOffset to the type definition
 };
 
-const Photo: React.FC<PhotoProps> = ({ photo, position, isCurrent, dragOffset = 0 }) => {
+const Photo: React.FC<PhotoProps> = ({
+  photo,
+  position,
+  isCurrent,
+  dragOffset = 0,
+}) => {
   const [isZoomed, setIsZoomed] = useState(false);
 
   const handleZoomToggle = () => {
     if (isCurrent) {
       setIsZoomed((prev) => !prev);
+      // Toggle overlay
+      const overlay = document.querySelector(".zoom-overlay");
+      overlay?.classList.toggle("active");
     }
   };
 

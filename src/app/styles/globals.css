@@ -1,6 +1,5 @@
 /* globals.css */
 
-/* Original global styles */
 html, body {
   background-color: black;
   color: white;
@@ -18,7 +17,7 @@ html, body {
   box-sizing: border-box;
 }
 
-/* Original container styles - exclude SecondPage */
+/* Container styles with improved positioning */
 :not(.second-page-container).container {
   max-width: 390px;
   max-height: 844px;
@@ -28,23 +27,46 @@ html, body {
   display: flex;
   justify-content: center;
   align-items: center;
-  position: relative; /* Add this */
-  top: -10vh; /* Move the container up by 10vh */
+  position: relative;
+  top: -10vh;
 }
 
-
-
-.z-50 {
-  z-index: 50;
-}
-/* Smooth transition for zoom effect */
+/* Enhanced zoom functionality */
 .zoomed {
   transform: scale(1.5);
-  transition: transform 0.3s ease-in-out;
-  cursor: zoom-out; /* Show zoom-out cursor */
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: zoom-out;
+  position: fixed !important;
+  top: 50% !important;
+  left: 50% !important;
+  transform-origin: center center;
+  z-index: 1000;
 }
 
-/* Progress bar container */
+.zoomed img {
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+}
+
+/* Zoom overlay */
+.zoom-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.75);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+  z-index: 999;
+}
+
+.zoom-overlay.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* Progress indicator improvements */
 .progress-indicator-bar {
   position: fixed;
   top: 20vh;
@@ -55,23 +77,28 @@ html, body {
   border-radius: 3px;
   overflow: hidden;
   opacity: 0.4;
-  z-index: 9999;
+  z-index: 50;
   display: flex;
   align-items: center;
+  transition: opacity 0.3s ease;
 }
 
-/* Interactive range input (progress bar) */
+.progress-indicator-bar:hover {
+  opacity: 0.8;
+}
+
+/* Improved slider styling */
 .progress-slider {
   -webkit-appearance: none;
   appearance: none;
   width: 100%;
   height: 6px;
-  background: rgba(255, 255, 255, 0.2); /* Fallback background */
+  background: rgba(255, 255, 255, 0.2);
   border-radius: 3px;
   outline: none;
   cursor: pointer;
-  transition: background-size 0.3s;
-  background-image: linear-gradient(white, white); /* Progress background */
+  transition: all 0.3s ease;
+  background-image: linear-gradient(white, white);
   background-repeat: no-repeat;
 }
 
@@ -80,60 +107,69 @@ html, body {
   appearance: none;
   width: 16px;
   height: 16px;
-  border-radius: 80%;
+  border-radius: 50%;
   background: yellow;
   border: 2px solid rgb(229, 255, 0);
   cursor: pointer;
-  transition: transform 0.3s;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 0 10px rgba(229, 255, 0, 0.3);
 }
 
 .progress-slider::-webkit-slider-thumb:hover {
   transform: scale(1.2);
+  box-shadow: 0 0 15px rgba(229, 255, 0, 0.5);
 }
 
 .progress-slider::-moz-range-thumb {
-  width: 12px;
-  height: 12px;
+  width: 16px;
+  height: 16px;
   border-radius: 50%;
   background: yellow;
-  border: 2px solid yellow;
+  border: 2px solid rgb(229, 255, 0);
   cursor: pointer;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 0 10px rgba(229, 255, 0, 0.3);
 }
 
+.progress-slider::-moz-range-thumb:hover {
+  transform: scale(1.2);
+  box-shadow: 0 0 15px rgba(229, 255, 0, 0.5);
+}
 
-
-/* Timer styles - keep these global */
+/* Timer styles with improved visibility */
 .timer {
   position: fixed;
-  bottom: calc(1rem);
+  bottom: 1rem;
   left: 1rem;
   background-color: rgba(0, 0, 0, 0.8);
   color: white;
   padding: 0.5rem 1rem;
   font-size: 0.875rem;
   border-radius: 0.375rem;
-  z-index: 9999;
+  z-index: 50;
   pointer-events: none;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
   max-width: calc(100% - 2rem);
   white-space: pre-line;
+  backdrop-filter: blur(8px);
 }
 
 .timer-top-right {
   position: fixed;
-  top: calc(1rem);
+  top: 1rem;
   right: 1rem;
   background-color: rgba(0, 0, 0, 0.8);
   color: white;
   padding: 0.5rem 1rem;
   font-size: 0.875rem;
   border-radius: 0.375rem;
-  z-index: 9999;
+  z-index: 50;
   pointer-events: none;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
   max-width: calc(100% - 2rem);
   white-space: pre-line;
   text-align: right;
+  backdrop-filter: blur(8px);
 }
 
 .text-description {
@@ -143,16 +179,15 @@ html, body {
   width: 100%;
   background-color: rgba(0, 0, 0, 0);
   color: white;
-  padding: 1rem 0;
+  padding: 1rem 2rem 1rem 0;
   font-size: 0.75rem;
   text-align: right;
-  z-index: 9999;
+  z-index: 50;
   pointer-events: none;
   white-space: pre-line;
-  padding-right: 2rem;
 }
 
-/* SecondPage specific styles */
+/* SecondPage styles with improved layout */
 .second-page-wrapper {
   width: 100vw;
   height: 100vh;
@@ -176,6 +211,7 @@ html, body {
   flex-direction: column;
 }
 
+/* View selector improvements */
 .second-page-wrapper .view-selector {
   position: absolute;
   top: 15vh;
@@ -190,6 +226,7 @@ html, body {
   backdrop-filter: blur(8px);
   width: 90%;
   max-width: 360px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 .second-page-wrapper .view-selector__button {
@@ -201,15 +238,18 @@ html, body {
   border: 1px solid rgba(255, 255, 255, 0.2);
   transition: all 0.3s ease;
   font-size: 0.875rem;
+  cursor: pointer;
 }
 
 .second-page-wrapper .view-selector__button:hover {
   background-color: rgba(255, 255, 255, 0.2);
+  transform: translateY(-1px);
 }
 
 .second-page-wrapper .view-selector__button--active {
   background-color: rgba(255, 255, 255, 0.3);
   border-color: rgba(255, 255, 255, 0.4);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .second-page-wrapper .view-container {
@@ -220,21 +260,25 @@ html, body {
   -webkit-overflow-scrolling: touch;
 }
 
-/* Calendar styles */
+/* Calendar style improvements */
 .second-page-wrapper .react-calendar {
   background-color: rgba(0, 0, 0, 0.8);
   border: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: 0.75rem;
   color: white;
   width: 100%;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(8px);
 }
 
 .second-page-wrapper .react-calendar button {
   color: white;
+  transition: all 0.2s ease;
 }
 
 .second-page-wrapper .react-calendar__tile--active {
   background-color: rgba(255, 255, 255, 0.3) !important;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .second-page-wrapper .react-calendar__tile--now {
@@ -246,4 +290,5 @@ html, body {
 .second-page-wrapper .react-calendar__tile:enabled:hover,
 .second-page-wrapper .react-calendar__tile:enabled:focus {
   background-color: rgba(255, 255, 255, 0.2);
+  transform: translateY(-1px);
 }
