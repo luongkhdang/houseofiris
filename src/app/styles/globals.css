@@ -32,6 +32,76 @@ html, body {
   top: -10vh; /* Move the container up by 10vh */
 }
 
+
+
+.z-50 {
+  z-index: 50;
+}
+/* Smooth transition for zoom effect */
+.zoomed {
+  transform: scale(1.5);
+  transition: transform 0.3s ease-in-out;
+  cursor: zoom-out; /* Show zoom-out cursor */
+}
+
+/* Progress bar container */
+.progress-indicator-bar {
+  position: fixed;
+  top: 20vh;
+  left: 35px;
+  width: 150px;
+  height: 6px;
+  background-color: rgba(255, 255, 255, 0.2);
+  border-radius: 3px;
+  overflow: hidden;
+  opacity: 0.4;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+}
+
+/* Interactive range input (progress bar) */
+.progress-slider {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 6px;
+  background: rgba(255, 255, 255, 0.2); /* Fallback background */
+  border-radius: 3px;
+  outline: none;
+  cursor: pointer;
+  transition: background-size 0.3s;
+  background-image: linear-gradient(white, white); /* Progress background */
+  background-repeat: no-repeat;
+}
+
+.progress-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  border-radius: 80%;
+  background: yellow;
+  border: 2px solid rgb(229, 255, 0);
+  cursor: pointer;
+  transition: transform 0.3s;
+}
+
+.progress-slider::-webkit-slider-thumb:hover {
+  transform: scale(1.2);
+}
+
+.progress-slider::-moz-range-thumb {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: yellow;
+  border: 2px solid yellow;
+  cursor: pointer;
+}
+
+
+
 /* Timer styles - keep these global */
 .timer {
   position: fixed;

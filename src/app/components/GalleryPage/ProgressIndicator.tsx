@@ -3,22 +3,37 @@ import React from "react";
 type ProgressIndicatorProps = {
   total: number;
   currentIndex: number;
+  onChange: (index: number) => void; // Callback to update currentIndex
 };
 
 const ProgressIndicator: React.FC<ProgressIndicatorProps> = ({
   total,
   currentIndex,
-}) => (
-  <div className="absolute bottom-8 left-0 right-0 flex justify-center gap-2">
-    {Array.from({ length: total }).map((_, index) => (
-      <div
-        key={index}
-        className={`w-2 h-2 rounded-full transition-colors duration-300 ${
-          index === currentIndex ? "bg-white" : "bg-gray-500"
-        }`}
+  onChange,
+}) => {
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const newIndex = parseInt(event.target.value, 10);
+    onChange(newIndex); // Update the currentIndex in the parent component
+  };
+
+  const progressPercentage = ((currentIndex + 1) / total) * 100;
+
+  return (
+    <div className="progress-indicator-bar">
+      <input
+        type="range"
+        min="0"
+        max={total - 1}
+        value={currentIndex}
+        onChange={handleChange}
+        className="progress-slider"
+        style={{
+          backgroundSize: `${progressPercentage}% 100%`,
+        }}
+        aria-label={`Photo ${currentIndex + 1} of ${total}`}
       />
-    ))}
-  </div>
-);
+    </div>
+  );
+};
 
 export default ProgressIndicator;

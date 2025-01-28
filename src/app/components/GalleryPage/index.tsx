@@ -10,7 +10,6 @@ import { fetchPhotos } from "./services/photoService";
 import { placeholderPhotos } from "./constants";
 
 const SWIPE_THRESHOLD = 50;
-
 const GalleryPage: React.FC = () => {
   const {
     data: photos,
@@ -54,6 +53,10 @@ const GalleryPage: React.FC = () => {
 
   const handleDrag = (_: unknown, info: PanInfo) => {
     setDragOffset(info.point.x - dragStart);
+  };
+
+  const handleIndexChange = (newIndex: number) => {
+    setCurrentIndex(newIndex);
   };
 
   if (isError) {
@@ -106,6 +109,7 @@ const GalleryPage: React.FC = () => {
       <ProgressIndicator
         total={activePhotos.length}
         currentIndex={currentIndex}
+        onChange={handleIndexChange} // Handle index changes from slider
       />
     </div>
   );
