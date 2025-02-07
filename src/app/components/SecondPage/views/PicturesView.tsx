@@ -20,7 +20,7 @@ const PicturesView: React.FC<PicturesViewProps> = ({ onNext }) => (
     </div>
 
     {/* Photo Container with Global CSS */}
-    <div className="photo-container">
+    <div className="photo-container-pictureview">
       <Image
         src="https://res.cloudinary.com/dvmpwccjw/image/upload/v1738893424/Screenshot_20250128_072739_Gallery_lknist.jpg"
         alt="Hai đứa mình"

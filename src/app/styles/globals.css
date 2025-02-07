@@ -29,7 +29,7 @@ html, body {
   justify-content: center;
   align-items: center;
   position: relative; /* Add this */
-  top: -10vh; /* Move the container up by 10vh */
+  top: -5vh; /* Move the container up by 10vh */
 }
 
 
@@ -469,7 +469,7 @@ html, body {
 
 /* globals.css */
  
-.photo-container {
+.photo-container-pictureview {
   display: flex;
   align-items: center;
   justify-content: center;   
@@ -478,7 +478,7 @@ html, body {
   max-height: 500px;
   margin-top: 2rem;
 }
-.photo-container img {
+.photo-container-pictureview img {
   width: auto;
   height: auto;
   max-width: 500px;
