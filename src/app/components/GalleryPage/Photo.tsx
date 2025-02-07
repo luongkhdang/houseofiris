@@ -65,8 +65,8 @@ const Photo: React.FC<PhotoProps> = ({ photo, position, isCurrent, dragOffset = 
       <Image
         src={photo.url}
         alt={photo.title || "Photo"}
-        width={isZoomed ? 800 : 380}
-        height={isZoomed ? 800 : 450}
+        width={isZoomed ? 800 : 420}
+        height={isZoomed ? 800 : 500}
         className={`rounded-xl shadow-lg transition-transform ${
           isZoomed ? "scale-150" : ""
         }`}
