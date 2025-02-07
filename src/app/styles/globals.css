@@ -27,8 +27,7 @@ html, body {
   display: flex;
   justify-content: center;
   align-items: center;
-  position: relative; /* Add this */
-  top: -5vh; /* Move the container up by 10vh */
+  position: relative; /* Add this */ 
 }
 
 
