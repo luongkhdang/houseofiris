@@ -25,18 +25,20 @@ const Photo: React.FC<PhotoProps> = ({ photo, position, isCurrent, dragOffset = 
   const variants = {
     left: { scale: 0.8, x: -100 + dragOffset,y:100, opacity: 0.5 }, // Adjust x with dragOffset
     center: { scale: 1, x: 0 + dragOffset, opacity: 1 }, // Adjust x with dragOffset
-    right: { scale: 0.8, x: 100 + dragOffset, y:-40, opacity: 0.5 }, // Adjust x with dragOffset
+    right: { scale: 0.8, x: 100 + dragOffset, y:-100, opacity: 0.5 }, // Adjust x with dragOffset
   };
 
   return (
-    <motion.div
-      className={`absolute ${isZoomed ? "z-50" : ""}`} // Ensure zoomed image is on top
-      initial={variants[position]}
-      animate={variants[position]}
-      transition={{ duration: 0.3 }}
-      onClick={handleZoomToggle} // Toggle zoom on click
-      style={{ cursor: isCurrent ? "zoom-in" : "default" }}
-    >
+<motion.div
+  className={`absolute ${isZoomed ? "z-50" : ""}`}
+  initial={{ ...variants[position], zIndex: position === "center" ? 10 : 5 }}
+  animate={{ ...variants[position], zIndex: position === "center" ? 10 : 5 }}
+  exit={{ zIndex: 5 }} // Ensures center doesn't fall back
+  transition={{ duration: 0.3 }}
+  onClick={handleZoomToggle}
+  style={{ cursor: isCurrent ? "zoom-in" : "default" }}
+>
+
       <Image
         src={photo.url}
         alt={photo.title || "Photo"}
