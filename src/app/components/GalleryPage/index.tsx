@@ -88,7 +88,7 @@ const GalleryPage: React.FC = () => {
           dragOffset={dragOffset}
         />
         <motion.div
-          className="z-10"
+          className="center-photo"
           drag="x"
           dragConstraints={containerRef}
           onDragStart={handleDragStart}

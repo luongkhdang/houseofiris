@@ -7,7 +7,7 @@ type PhotoProps = {
   photo: PhotoType;
   position: "left" | "center" | "right";
   isCurrent: boolean;
-  dragOffset?: number; // Add dragOffset to the type definition
+  dragOffset?: number;
 };
 
 const Photo: React.FC<PhotoProps> = ({ photo, position, isCurrent, dragOffset = 0 }) => {
@@ -16,39 +16,62 @@ const Photo: React.FC<PhotoProps> = ({ photo, position, isCurrent, dragOffset = 
   const handleZoomToggle = () => {
     if (isCurrent) {
       setIsZoomed((prev) => !prev);
-      // Toggle overlay
       const overlay = document.querySelector('.zoom-overlay');
       overlay?.classList.toggle('active');
     }
   };
 
   const variants = {
-    left: { scale: 0.8, x: -100 + dragOffset,y:100, opacity: 0.5 }, // Adjust x with dragOffset
-    center: { scale: 1, x: 0 + dragOffset, opacity: 1 }, // Adjust x with dragOffset
-    right: { scale: 0.8, x: 100 + dragOffset, y:-100, opacity: 0.5 }, // Adjust x with dragOffset
+    left: { 
+      scale: 0.8, 
+      x: -100 + dragOffset,
+      y: 100, 
+      opacity: 0.5,
+      zIndex: 5 
+    },
+    center: { 
+      scale: 1, 
+      x: 0 + dragOffset,
+      y: 0, 
+      opacity: 1,
+      zIndex: 10 
+    },
+    right: { 
+      scale: 0.8, 
+      x: 100 + dragOffset,
+      y: -100, 
+      opacity: 0.5,
+      zIndex: 5 
+    },
   };
 
   return (
-<motion.div
-  className={`absolute ${isZoomed ? "z-50" : ""}`}
-  initial={{ ...variants[position], zIndex: position === "center" ? 10 : 5 }}
-  animate={{ ...variants[position], zIndex: position === "center" ? 10 : 5 }}
-  exit={{ zIndex: 5 }} // Ensures center doesn't fall back
-  transition={{ duration: 0.3 }}
-  onClick={handleZoomToggle}
-  style={{ cursor: isCurrent ? "zoom-in" : "default" }}
->
-
+    <motion.div
+      className={`absolute inset-0 flex items-center justify-center ${
+        isZoomed ? "z-50" : ""
+      }`}
+      initial={variants[position]}
+      animate={variants[position]}
+      transition={{ 
+        duration: 0.3,
+        zIndex: { duration: 0 } // Instant z-index changes
+      }}
+      onClick={handleZoomToggle}
+      style={{ 
+        cursor: isCurrent ? "zoom-in" : "default",
+        position: "relative" // Enable z-index
+      }}
+    >
       <Image
         src={photo.url}
         alt={photo.title || "Photo"}
-        width={isCurrent && isZoomed ? 800 : 380} // Larger size when zoomed
-        height={isCurrent && isZoomed ? 800 : 380}
+        width={isZoomed ? 800 : 380}
+        height={isZoomed ? 800 : 450}
         className={`rounded-xl shadow-lg transition-transform ${
           isZoomed ? "scale-150" : ""
         }`}
         placeholder="blur"
-        blurDataURL={photo.url} // Optional placeholder for zooming
+        blurDataURL={photo.url}
         priority={isCurrent}
         style={{
           objectFit: "contain",
