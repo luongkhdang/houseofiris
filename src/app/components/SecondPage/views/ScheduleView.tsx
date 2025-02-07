@@ -3,7 +3,6 @@ import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import { Schedule } from "../types";
 import { scheduleService } from "../services/scheduleService";
- 
 
 const ScheduleView: React.FC = () => {
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
@@ -42,9 +41,16 @@ const ScheduleView: React.FC = () => {
     }
   };
 
+  // Function to check if a date is in the past
+  const isPastDate = (date: Date) => {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    return date < today;
+  };
+
   return (
-    <div className="space-y-4">
-      <h1 className="text-2xl font-bold">Pick a date</h1>
+    <div className="schedule-container">
+      <h1 className="schedule-title">Pick a date</h1>
       <Calendar
         onChange={(value) => {
           if (value instanceof Date) {
@@ -54,28 +60,32 @@ const ScheduleView: React.FC = () => {
           }
         }}
         value={selectedDate}
+        className="schedule-calendar"
+        tileClassName={({ date }) => (isPastDate(date) ? "past-date" : "")}
       />
-      <textarea
-        className="w-full p-2 border rounded min-h-[100px]"
-        placeholder="Add a note or schedule here..."
-        value={note}
-        onChange={(e) => setNote(e.target.value)}
-      />
-      <button
-        className="bg-blue-500 text-white px-6 py-2 rounded hover:bg-blue-600"
-        onClick={handleSave}
-      >
-        Save Schedule
-      </button>
-      <h2 className="text-xl font-bold">Saved Schedules</h2>
-      <ul>
+
+      {/* Textarea & Button Wrapper */}
+      <div className="schedule-input-container">
+        <textarea
+          className="schedule-textarea"
+          placeholder="Add a note or schedule here..."
+          value={note}
+          onChange={(e) => setNote(e.target.value)}
+        />
+        <button className="schedule-save-button" onClick={handleSave}>
+          Save Schedule
+        </button>
+      </div>
+
+      <h4 className="schedule-subtitle">Saved Schedules</h4>
+      <ul className="schedule-list">
         {schedules.map((schedule, index) => (
-          <li key={index} className="flex justify-between items-center">
+          <li key={index} className="schedule-list-item">
             <span>
               {new Date(schedule.date).toDateString()}: {schedule.note}
             </span>
             <button
-              className="text-red-500 hover:underline ml-4"
+              className="schedule-delete-button"
               onClick={() => handleDelete(schedule.date)}
             >
               X
