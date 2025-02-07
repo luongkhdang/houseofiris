@@ -28,7 +28,7 @@ export async function GET() {
     const feedbacks = await getFeedbacks();
 
     // Sort feedbacks from oldest to latest
-    feedbacks.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
+    feedbacks.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
 
     return NextResponse.json(feedbacks);
   } catch (error) {
@@ -56,23 +56,4 @@ export async function POST(req: Request) {
   }
 }
 
-// PATCH: Update reply to a feedback
-export async function PATCH(req: Request) {
-  try {
-    const { date, reply }: { date: string; reply: string } = await req.json();
-    const feedbacks = await getFeedbacks();
-
-    // Update the reply for the specific feedback
-    const updatedFeedbacks = feedbacks.map((fb) =>
-      fb.date === date ? { ...fb, replies: reply } : fb
-    );
-
-    // Save updated feedbacks to Redis
-    await redis.set("feedbacks", JSON.stringify(updatedFeedbacks));
-
-    return NextResponse.json({ message: "Reply updated successfully" });
-  } catch (error) {
-    console.error("Error updating reply:", error);
-    return NextResponse.json({ error: "Failed to update reply" }, { status: 500 });
-  }
-}
+ 
