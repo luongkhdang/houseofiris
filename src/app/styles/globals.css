@@ -180,7 +180,7 @@ html, body {
 
 .second-page-wrapper .view-selector {
   position: absolute;
-  top: 15vh;
+  top: 8vh;
   left: 50%;
   transform: translateX(-50%);
   z-index: 50;
@@ -214,7 +214,7 @@ html, body {
 }
 
 .second-page-wrapper .view-container {
-  margin-top: calc(15vh + 3rem);
+  margin-top: calc(12vh  );
   padding-left: 1rem;
   padding-bottom: 30vh;
   height: calc(85vh - 4rem);
