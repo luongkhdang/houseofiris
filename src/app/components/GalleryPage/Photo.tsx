@@ -25,7 +25,7 @@ const Photo: React.FC<PhotoProps> = ({ photo, position, isCurrent, dragOffset = 
     left: { 
       scale: 0.8, 
       x: -100 + dragOffset,
-      y: 120, 
+      y: 180, 
       opacity: 0.5,
       zIndex: 5 
     },
@@ -39,7 +39,7 @@ const Photo: React.FC<PhotoProps> = ({ photo, position, isCurrent, dragOffset = 
     right: { 
       scale: 0.8, 
       x: 100 + dragOffset,
-      y: -100, 
+      y: -180, 
       opacity: 0.5,
       zIndex: 5 
     },
