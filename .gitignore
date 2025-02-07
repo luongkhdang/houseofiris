@@ -39,3 +39,14 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+
+
+# Ignore entire redis API folder
+src/app/api/redis/
+
+# Ignore redis.ts file in lib
+src/app/lib/redis.ts
+
+# Ignore entire secret page folder
+src/app/secret/
