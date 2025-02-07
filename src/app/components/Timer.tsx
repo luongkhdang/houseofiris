@@ -22,9 +22,9 @@ const Timer: React.FC = () => {
       const hours = Math.floor((difference / (1000 * 60 * 60)) % 24);
       const minutes = Math.floor((difference / (1000 * 60)) % 60);
       const seconds = Math.floor((difference / 1000) % 60);
-
+      
       setElapsedTime(
-        `Yay, we've been together for:\n${months} Months ${days} Days ${hours} Hours ${minutes} Minutes ${seconds} Seconds !!`
+        `Yay, we've been together for: ${totalDays} days\n${months} Months ${days} Days ${hours} Hours ${minutes} Minutes ${seconds} Seconds !!`
       );
     };
 
