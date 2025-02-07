@@ -465,3 +465,22 @@ html, body {
 }
 
 
+
+
+/* globals.css */
+ 
+.photo-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;   
+  overflow: hidden;
+  max-width: 500px;
+  max-height: 500px;
+  margin-top: 2rem;
+}
+.photo-container img {
+  width: auto;
+  height: auto;
+  max-width: 500px;
+  max-height: 500px;
+}
