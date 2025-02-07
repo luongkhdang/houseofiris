@@ -1,10 +1,16 @@
 import React, { useState, useEffect } from "react";
 import { emailService } from "../services/emailService";
 
+interface Feedback {
+  date: string;
+  content: string;
+  replies?: string;
+}
+
 const FeedbackView: React.FC = () => {
   const [feedback, setFeedback] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [feedbackPosts, setFeedbackPosts] = useState<any[]>([]);
+  const [feedbackPosts, setFeedbackPosts] = useState<Feedback[]>([]);
 
   useEffect(() => {
     fetch("/api/feedbacks")
@@ -42,7 +48,7 @@ const FeedbackView: React.FC = () => {
       alert("Your feedback has been sent!");
 
       // Update feedback list immediately and ensure sorting
-      setFeedbackPosts((prev) => {
+      setFeedbackPosts((prev: Feedback[]) => {
         const updatedList = [...prev, { ...newFeedback, replies: ".." }];
         return updatedList.sort(
           (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
@@ -81,7 +87,7 @@ const FeedbackView: React.FC = () => {
 
       {/* Display Submitted Feedback as Emails */}
       <div className="post-container">
-        <h2 className="title text-xl font-bold">📩 Inbox</h2>
+        <h2 className="title text-xl font-bold">📩 Mailbox</h2>
         {feedbackPosts.length === 0 ? (
           <p className="text-gray-500">No messages yet.</p>
         ) : (

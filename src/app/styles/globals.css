@@ -400,6 +400,7 @@ html, body {
 
 .post-container .title {
   margin:0;
+  color:   #000000; 
 }
 .email-folder {
   padding-left:1rem;
@@ -431,7 +432,7 @@ html, body {
 /* Email Footer */
 .email-footer {
   font-size: 1rem;
-  color:   #ffffff;;
+  color:   #ffffff; 
   text-align: right;
   font-weight: bold;
   margin:0;

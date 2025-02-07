@@ -13,7 +13,6 @@ type Photo = {
   height: number;
   created_at: string;
   title?: string; // Optional property
-
   date?: string; // Optional property
   location?: string; // Optional property
 };
