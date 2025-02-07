@@ -1,6 +1,8 @@
 import { NextResponse } from "next/server";
-import fs from "fs";
-import path from "path";
+import Redis from "ioredis";
+
+// Initialize Redis with your Vercel Redis URL
+const redis = new Redis(process.env.REDIS_URL as string);
 
 // Define the interface for a schedule
 interface Schedule {
@@ -15,13 +17,10 @@ interface Schedule {
   metadata?: Record<string, string | number | boolean>;
 }
 
-// Path to the schedules.json file
-const dataFilePath = path.join(process.cwd(), "data", "schedules.json");
-
 export async function GET() {
   try {
-    // Read and parse JSON safely
-    const data = fs.existsSync(dataFilePath) ? fs.readFileSync(dataFilePath, "utf8").trim() : "[]";
+    // Retrieve schedules from Redis
+    const data = await redis.get("schedules");
     const schedules: Schedule[] = data ? JSON.parse(data) : [];
 
     const today = new Date();
@@ -39,9 +38,6 @@ export async function GET() {
     // Sort schedules by date (oldest to latest)
     upcomingSchedules.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
 
-    // Save only upcoming schedules back to the file
-    fs.writeFileSync(dataFilePath, JSON.stringify(upcomingSchedules, null, 2));
-
     return NextResponse.json(upcomingSchedules);
   } catch (error) {
     console.error("Error reading schedules:", error);
@@ -49,12 +45,11 @@ export async function GET() {
   }
 }
 
-
 export async function POST(req: Request) {
   try {
     const body: Schedule = await req.json();
-    const data = fs.readFileSync(dataFilePath, "utf8");
-    const schedules: Schedule[] = JSON.parse(data);
+    const data = await redis.get("schedules");
+    const schedules: Schedule[] = data ? JSON.parse(data) : [];
 
     const scheduleDate = new Date(body.date);
     const today = new Date();
@@ -74,8 +69,8 @@ export async function POST(req: Request) {
     // Sort schedules again after adding
     schedules.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
 
-    // Save updated list
-    fs.writeFileSync(dataFilePath, JSON.stringify(schedules, null, 2));
+    // Save updated list to Redis
+    await redis.set("schedules", JSON.stringify(schedules));
 
     return NextResponse.json({ message: "Schedule saved successfully" });
   } catch (error) {
@@ -87,14 +82,14 @@ export async function POST(req: Request) {
 export async function DELETE(req: Request) {
   try {
     const { date }: { date: string } = await req.json();
-    const data = fs.readFileSync(dataFilePath, "utf8");
-    const schedules: Schedule[] = JSON.parse(data);
+    const data = await redis.get("schedules");
+    const schedules: Schedule[] = data ? JSON.parse(data) : [];
 
     // Filter out the schedule to delete
     const updatedSchedules = schedules.filter(schedule => schedule.date !== date);
 
-    // Write updated schedules back to the file
-    fs.writeFileSync(dataFilePath, JSON.stringify(updatedSchedules, null, 2));
+    // Save updated schedules back to Redis
+    await redis.set("schedules", JSON.stringify(updatedSchedules));
 
     return NextResponse.json({ message: "Schedule deleted successfully" });
   } catch (error) {

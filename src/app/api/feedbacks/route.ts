@@ -1,6 +1,8 @@
 import { NextResponse } from "next/server";
-import fs from "fs";
-import path from "path";
+import Redis from "ioredis";
+
+// Initialize Redis with your Redis URL
+const redis = new Redis(process.env.REDIS_URL as string);
 
 // Define the interface for feedback
 interface Feedback {
@@ -9,30 +11,24 @@ interface Feedback {
   replies?: string;
 }
 
-// Path to feedbacks.json
-const feedbacksFilePath = path.join(process.cwd(), "data", "feedbacks.json");
-
-// Function to safely read and parse JSON
-const readFeedbacks = (): Feedback[] => {
+// Helper function to get all feedbacks from Redis
+const getFeedbacks = async (): Promise<Feedback[]> => {
   try {
-    if (!fs.existsSync(feedbacksFilePath)) {
-      return [];
-    }
-
-    const data = fs.readFileSync(feedbacksFilePath, "utf8").trim();
+    const data = await redis.get("feedbacks");
     return data ? JSON.parse(data) : [];
   } catch (error) {
-    console.error("Error parsing feedbacks.json:", error);
+    console.error("Error retrieving feedbacks from Redis:", error);
     return [];
   }
 };
 
+// GET: Retrieve all feedbacks sorted from oldest to latest
 export async function GET() {
   try {
-    const feedbacks = readFeedbacks();
+    const feedbacks = await getFeedbacks();
 
-    // Sort feedbacks from latest to oldest
-    feedbacks.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+    // Sort feedbacks from oldest to latest
+    feedbacks.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
 
     return NextResponse.json(feedbacks);
   } catch (error) {
@@ -41,16 +37,17 @@ export async function GET() {
   }
 }
 
+// POST: Add a new feedback
 export async function POST(req: Request) {
   try {
     const body: Feedback = await req.json();
-    const feedbacks = readFeedbacks();
+    const feedbacks = await getFeedbacks();
 
     // Add new feedback with default reply as ".."
     feedbacks.push({ ...body, replies: ".." });
 
-    // Save feedbacks
-    fs.writeFileSync(feedbacksFilePath, JSON.stringify(feedbacks, null, 2));
+    // Save feedbacks to Redis
+    await redis.set("feedbacks", JSON.stringify(feedbacks));
 
     return NextResponse.json({ message: "Feedback saved successfully" });
   } catch (error) {
@@ -59,18 +56,19 @@ export async function POST(req: Request) {
   }
 }
 
+// PATCH: Update reply to a feedback
 export async function PATCH(req: Request) {
   try {
     const { date, reply }: { date: string; reply: string } = await req.json();
-    const feedbacks = readFeedbacks();
+    const feedbacks = await getFeedbacks();
 
     // Update the reply for the specific feedback
     const updatedFeedbacks = feedbacks.map((fb) =>
       fb.date === date ? { ...fb, replies: reply } : fb
     );
 
-    // Save updated feedbacks
-    fs.writeFileSync(feedbacksFilePath, JSON.stringify(updatedFeedbacks, null, 2));
+    // Save updated feedbacks to Redis
+    await redis.set("feedbacks", JSON.stringify(updatedFeedbacks));
 
     return NextResponse.json({ message: "Reply updated successfully" });
   } catch (error) {
