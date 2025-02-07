@@ -68,18 +68,25 @@ const ScheduleView: React.FC = () => {
   return (
     <div className="schedule-container">
       <h1 className="schedule-title">Pick a date</h1>
-      <Calendar
-        onChange={(value) => {
-          if (value instanceof Date) {
-            setSelectedDate(value);
-          } else if (Array.isArray(value)) {
-            setSelectedDate(value[0]);
-          }
-        }}
-        value={selectedDate}
-        className="schedule-calendar"
-        tileClassName={({ date }) => (isPastDate(date) ? "past-date" : "")}
-      />
+
+<Calendar
+  onChange={(value) => {
+    if (value instanceof Date) {
+      setSelectedDate(value);
+    } else if (Array.isArray(value)) {
+      setSelectedDate(value[0]);
+    }
+  }}
+  value={selectedDate}
+  className="schedule-calendar"
+  tileClassName={({ date }) => {
+    let classes = "";
+    if (isPastDate(date)) classes += " past-date";
+    if (date.getDate() === 11) classes += " highlight-eleventh";
+    return classes.trim();
+  }}
+/>
+
 
       {/* Textarea & Button Wrapper */}
       <div className="schedule-input-container">
