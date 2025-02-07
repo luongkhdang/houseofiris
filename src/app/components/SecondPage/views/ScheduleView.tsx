@@ -10,10 +10,27 @@ const ScheduleView: React.FC = () => {
   const [schedules, setSchedules] = useState<Schedule[]>([]);
 
   useEffect(() => {
-    scheduleService.getSchedules()
-      .then(setSchedules)
-      .catch(error => console.error("Failed to fetch schedules:", error));
+    scheduleService
+      .getSchedules()
+      .then((data) => {
+        if (Array.isArray(data)) {
+          // Ensure valid structure before setting state
+          const validSchedules = data.filter(schedule => schedule.date && schedule.note);
+          setSchedules(validSchedules);
+        } else {
+          console.error("Invalid data format received:", data);
+          setSchedules([]); // Reset to an empty array
+        }
+      })
+      .catch((error) => {
+        console.error("Failed to fetch schedules:", error);
+        setSchedules([]); // Ensure schedules is always an array
+      });
   }, []);
+  
+
+
+
 
   const handleSave = async () => {
     if (!selectedDate) {

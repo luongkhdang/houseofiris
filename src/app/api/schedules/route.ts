@@ -20,11 +20,18 @@ const dataFilePath = path.join(process.cwd(), "data", "schedules.json");
 
 export async function GET() {
   try {
-    const data = fs.readFileSync(dataFilePath, "utf8");
-    const schedules: Schedule[] = JSON.parse(data);
+    // Read and parse JSON safely
+    const data = fs.existsSync(dataFilePath) ? fs.readFileSync(dataFilePath, "utf8").trim() : "[]";
+    const schedules: Schedule[] = data ? JSON.parse(data) : [];
 
     const today = new Date();
     today.setHours(0, 0, 0, 0); // Normalize to start of the day
+
+    // Ensure schedules is always an array
+    if (!Array.isArray(schedules)) {
+      console.error("Invalid schedules format:", schedules);
+      return NextResponse.json([]);
+    }
 
     // Filter out past schedules
     const upcomingSchedules = schedules.filter(schedule => new Date(schedule.date) >= today);
@@ -41,6 +48,7 @@ export async function GET() {
     return NextResponse.json({ error: "Failed to read schedules" }, { status: 500 });
   }
 }
+
 
 export async function POST(req: Request) {
   try {
