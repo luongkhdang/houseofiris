@@ -66,7 +66,7 @@ const FeedbackView: React.FC = () => {
 
   return (
     <div className="space-y-4">
-      <h1 className="text-2xl font-bold">📝 Bản Tin Nhắn 🐈</h1>
+      <h1 className="text-2xl font-bold">📝 Hộp Thư 🐈</h1>
 
       {/* Textarea & Button Wrapper */}
       <div className="feedback-input-container">
@@ -87,7 +87,7 @@ const FeedbackView: React.FC = () => {
 
       {/* Display Submitted Feedback as Emails */}
       <div className="post-container">
-        <h2 className="title text-xl font-bold">📩 Mailbox</h2>
+        <h2 className="title text-xl font-bold">🕊️ Love Letter Box </h2>
         {feedbackPosts.length === 0 ? (
           <p className="text-gray-500">No messages yet.</p>
         ) : (
@@ -105,7 +105,7 @@ const FeedbackView: React.FC = () => {
               </li>
 
               <p className="email-reply">
-              boifriend 🐂: {post.replies}&nbsp;&nbsp;&nbsp;
+              <span className="boyfriend-text">boifriend 🐂</span>: {post.replies}&nbsp;&nbsp;&nbsp;
                 </p>
 
               </div>
