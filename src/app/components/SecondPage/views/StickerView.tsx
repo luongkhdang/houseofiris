@@ -9,30 +9,37 @@ const GRID_CELL_SIZE = 96;
 const ADJUSTED_CELL_SIZE = GRID_CELL_SIZE - 30;
 const CURRENT_CREDIT = 20;
 
-const DraggableSticker = ({ sticker, initialPosition, gridHeight }) => (
-  <motion.div
-    className="sticker-container"
-    drag
-    dragConstraints={{ left: 10, right: 200, top: -100, bottom: Math.max(0, gridHeight - GRID_CELL_SIZE + 100) }}
-    dragTransition={{ bounceStiffness: 100, bounceDamping: 10 }}
-    initial={{ x: initialPosition.x, y: initialPosition.y }}
-    whileTap={{ scale: 0.9 }}
-  >
-    <Image
-      src={`${STICKER_FOLDER}${sticker}`}
-      alt={`Sticker ${sticker}`}
-      width={80}
-      height={80}
-      className="sticker-image"
-    />
-  </motion.div>
-);
+interface DraggableStickerProps {
+    sticker: string;
+    initialPosition: { x: number; y: number };
+    gridHeight: number;
+  }
+  
+  const DraggableSticker: React.FC<DraggableStickerProps> = ({ sticker, initialPosition, gridHeight }) => (
+    <motion.div
+      className="sticker-container"
+      drag
+      dragConstraints={{ left: 10, right: 200, top: -100, bottom: Math.max(0, gridHeight - GRID_CELL_SIZE + 100) }}
+      dragTransition={{ bounceStiffness: 100, bounceDamping: 10 }}
+      initial={{ x: initialPosition.x, y: initialPosition.y }}
+      whileTap={{ scale: 0.9 }}
+    >
+      <Image
+        src={`${STICKER_FOLDER}${sticker}`}
+        alt={`Sticker ${sticker}`}
+        width={80}
+        height={80}
+        className="sticker-image"
+      />
+    </motion.div>
+  );
 
 const StickerView = () => {
   const [stickerList, setStickerList] = useState([]);
-  const [collectedStickers, setCollectedStickers] = useState(
+  const [collectedStickers, setCollectedStickers] = useState<string[]>(
     typeof window !== "undefined" ? JSON.parse(localStorage.getItem("collectedStickers") || "[]") : []
   );
+  
   const [totalCredit, setTotalCredit] = useState(CURRENT_CREDIT);
 
   const totalCollectedStickers = collectedStickers.length;
@@ -43,17 +50,23 @@ const StickerView = () => {
     setTotalCredit(totalCollectedStickers);
   }
 
-  const [newStickers, setNewStickers] = useState([]);
+  const [newStickers, setNewStickers] = useState<string[]>([]);
   const [isOpening, setIsOpening] = useState(false);
   const [showPack, setShowPack] = useState(true);
   
-  const stickerGridRef = useRef(null);
+  const stickerGridRef = useRef<HTMLDivElement | null>(null);
   const [gridHeight, setGridHeight] = useState(0);
 
   useEffect(() => {
     fetchStickerList();
   }, []);
 
+
+  useEffect(() => {
+    if (stickerGridRef.current) {
+      setGridHeight(stickerGridRef.current.clientHeight);
+    }
+  }, [collectedStickers]);
   useEffect(() => {
     if (typeof window !== "undefined") {
       localStorage.setItem("collectedStickers", JSON.stringify(collectedStickers));
@@ -76,7 +89,7 @@ const StickerView = () => {
   const getRandomStickers = () => {
     const remainingStickers = stickerList.filter((sticker) => !collectedStickers.includes(sticker));
     const count = Math.min(Math.floor(Math.random() * MAX_OPEN_PER_PACK) + 1, remainingStickers.length);
-    const selectedStickers = [];
+    const selectedStickers: string[] = [];
 
     while (selectedStickers.length < count) {
       const randomIndex = Math.floor(Math.random() * remainingStickers.length);
