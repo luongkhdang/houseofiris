@@ -6,12 +6,15 @@ import { queryClient } from "./lib/queryClient";
 import "./styles/globals.css";
 import Timer from "./components/Timer";
 import Timers from "./components/Timers";
+import { useSessionReset } from "./hooks/useSessionReset";
 
 export default function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  useSessionReset();
+
   return (
     <html lang="en">
       <body>
