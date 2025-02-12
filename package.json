@@ -28,6 +28,7 @@
     "react-calendar": "^5.1.0",
     "react-cloudinary": "^0.4.1",
     "react-dom": "^18.3.1",
+    "react-draggable": "^4.4.6",
     "swiper": "^11.2.1"
   },
   "devDependencies": {

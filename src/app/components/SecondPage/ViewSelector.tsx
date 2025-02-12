@@ -7,7 +7,7 @@ interface ViewSelectorProps {
 }
 
 const ViewSelector: React.FC<ViewSelectorProps> = ({ currentView, onViewChange }) => {
-  const views: ViewType[] = ["pictures", "feedback", "schedule"];
+  const views: ViewType[] = ["pictures","sticker", "feedback", "schedule"];
 
   return (
     <div className="view-selector">

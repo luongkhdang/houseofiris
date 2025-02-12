@@ -3,6 +3,7 @@ import { ViewType } from "./types";
 import PicturesView from "./views/PicturesView";
 import FeedbackView from "./views/FeedbackView";
 import ScheduleView from "./views/ScheduleView";
+import StickerView from "./views/StickerView"
 
 interface ViewContainerProps {
   currentView: ViewType;
@@ -13,7 +14,8 @@ const ViewContainer: React.FC<ViewContainerProps> = ({ currentView, onNext }) =>
   const views = {
     pictures: <PicturesView onNext={onNext} />,
     feedback: <FeedbackView />,
-    schedule: <ScheduleView />
+    schedule: <ScheduleView />,
+    sticker: <StickerView />
   };
 
   return (
