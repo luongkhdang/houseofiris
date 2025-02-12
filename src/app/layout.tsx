@@ -1,4 +1,4 @@
-"use client";
+"use client"; // Keep this since your layout is a client component
 
 import React from "react";
 import { QueryClientProvider } from "@tanstack/react-query";
@@ -6,7 +6,7 @@ import { queryClient } from "./lib/queryClient";
 import "./styles/globals.css";
 import Timer from "./components/Timer";
 import Timers from "./components/Timers";
-import { useSessionReset } from "./hooks/useSessionReset";
+import { useSessionReset } from "./hooks/useSessionReset"; 
 
 export default function RootLayout({
   children,
