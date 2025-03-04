@@ -1,11 +1,12 @@
 # House of Iris and Tommy (Project XXX - Basic React + Typescript)
 
-![House of Iris and Tommy](demo.JPG)
+![House of Iris and Tommy](DEMO2.PNG)
 
 This app is a personal project where we store our memories, including photos, videos, and love letters. It is built using modern web technologies to provide a seamless user experience.
 
 ## Demo
 Check out the live demo: [https://houseofiris.vercel.app/](https://houseofiris.vercel.app/)
+(DEMO.PNG)
 
 ## Built with
 This project is built using the following technologies:
