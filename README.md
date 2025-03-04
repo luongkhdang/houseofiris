@@ -1,36 +1,84 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# House of Iris and Tommy (Project XXX - Basic React + Typescript)
 
-## Getting Started
+![House of Iris and Tommy](demo.JPG)
 
-First, run the development server:
+This app is a personal project where we store our memories, including photos, videos, and love letters. It is built using modern web technologies to provide a seamless user experience.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## Demo
+Check out the live demo: [https://houseofiris.vercel.app/](https://houseofiris.vercel.app/)
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Built with
+This project is built using the following technologies:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- **Next.js**: A React framework for building server-side rendered applications. **Version**: 15.1.4
+- **React**: A JavaScript library for building user interfaces. **Version**: 18.3.1
+- **TypeScript**: A superset of JavaScript that adds static types. **Version**: 5
+- **Tailwind CSS**: A utility-first CSS framework for styling. **Version**: 3.4.17
+- **Chakra UI**: A component library for React that provides accessible and reusable components. **Version**: 3.3.1
+- **Framer Motion**: A library for animations in React applications. **Version**: 11.18.0
+- **Redis**: An in-memory data structure store used for caching and data storage. **Version**: 3.0.0 (via `ioredis`)
+- **Cloudinary**: A cloud service for managing images and videos. **Version**: 2.5.1
+- **EmailJS**: A service for sending emails directly from the client-side. **Version**: 4.4.1
+- **Axios**: A promise-based HTTP client for making requests. **Version**: 1.7.9
+- **React Query**: A library for fetching, caching, and updating data in React applications. **Version**: 5.64.0
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Feel free to customize this section based on any additional technologies or tools you are using in your project.
 
-## Learn More
+## How to build:
 
-To learn more about Next.js, take a look at the following resources:
+To get started with the project, follow these steps:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+1. Create a new Vite project:
+   ```bash
+   npm create vite@4.1.0
+   ```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+2. Authenticate with GitHub:
+   ```bash
+   gh auth login
+   ```
 
-## Deploy on Vercel
+3. Create a new GitHub repository:
+   ```bash
+   gh repo create <repo-name> --public
+   ```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+4. Add the remote origin:
+   ```bash
+   git remote add origin https://github.com/luongkhdang/xxxxxxx
+   ```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+5. Push your code to the repository:
+   ```bash
+   git push -u origin master
+   ```
+
+## Mobile support
+
+This application is designed to be responsive and works well on mobile devices.
+
+## Development
+
+Want to contribute? Great!
+
+To fix a bug or enhance an existing module, follow these steps:
+
+### Bug / Feature Request
+
+If you have a bug or feature request, please open an issue on GitHub.
+
+## To-do
+
+- [ ] Add more features
+- [ ] Improve UI/UX
+- [ ] Optimize performance
+
+## Team
+
+[![Luong Dang](https://avatars.githubusercontent.com/luongkhdang?v=2&s=100)](https://github.com/luongkhdang)
+
+[Luong Dang](https://github.com/luongkhdang)
+
+## [License](https://github.com/luongkhdang/xxxxx/LICENSE.md)
+
+MIT © [Luong Dang](https://github.com/luongkhdang)
