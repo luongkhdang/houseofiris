@@ -32,36 +32,36 @@ test('setupTests is loaded', () => {
 global.fetch = jest.fn();
 
 // Ensure timer functions are properly mocked
-global.setInterval = jest.fn((_callback: TimerHandler, _ms?: number) => {
+global.setInterval = jest.fn(() => {
   return 123; // Mock interval ID
 }) as unknown as typeof setInterval;
 
-global.clearInterval = jest.fn((_id?: number) => {
+global.clearInterval = jest.fn(() => {
   // Mock implementation
 }) as unknown as typeof clearInterval;
 
 // Custom mock interfaces
 interface MockResponse {
   status: number;
-  body: any;
+  body: string;
   headers: Headers;
-  json(): Promise<any>;
+  json(): Promise<string>;
 }
 
 interface MockRequest {
   url: string;
-  options: any;
-  json(): Promise<any>;
+  options: { body?: string };
+  json(): Promise<Record<string, unknown>>;
 }
 
 // Mock Response constructor
 global.Response = class implements MockResponse {
   status: number;
-  body: any;
+  body: string;
   headers: Headers;
-  constructor(body?: any, options?: any) {
+  constructor(body?: string, options?: { status?: number; headers?: HeadersInit }) {
     this.status = options?.status || 200;
-    this.body = body;
+    this.body = body || "";
     this.headers = new Headers(options?.headers);
   }
   json() {
@@ -72,11 +72,11 @@ global.Response = class implements MockResponse {
 // Mocking Next.js server-side objects
 global.Request = class implements MockRequest {
   url: string;
-  options: any;
+  options: { body?: string };
   
-  constructor(url: string, options?: any) {
+  constructor(url: string, options?: { body?: string }) {
     this.url = url;
-    this.options = options;
+    this.options = options || {};
   }
   
   json() {

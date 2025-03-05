@@ -24,13 +24,13 @@ Cypress.Commands.add('containsText', { prevSubject: true }, (subject, text) => {
   return cy.wrap(subject);
 });
 
-// Declare the Cypress namespace to extend with custom commands
-declare global {
-  namespace Cypress {
-    interface Chainable {
-      login(email: string, password: string): Chainable<void>;
-      cleanTestData(): Chainable<void>;
-      containsText(text: string): Chainable<Element>;
-    }
-  }
-} 
+// Remove the namespace declaration
+// declare global {
+//   namespace Cypress {
+//     interface Chainable {
+//       login(email: string, password: string): Chainable<void>;
+//       cleanTestData(): Chainable<void>;
+//       containsText(text: string): Chainable<Element>;
+//     }
+//   }
+// } 
