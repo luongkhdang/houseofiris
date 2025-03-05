@@ -1,0 +1,45 @@
+{
+  "context": {
+    "introduction": "The House of Iris and Tommy project is a personal memory storage application using modern web technologies.",
+    "key_terms": [
+      "House of Iris and Tommy: A project for storing personal memories.",
+      "Next.js: A React framework for building web applications.",
+      "TypeScript: A typed superset of JavaScript.",
+      "Tailwind CSS: A utility-first CSS framework.",
+      "Chakra UI: A simple, modular, and accessible component library.",
+      "Framer Motion: A library for animations in React.",
+      "Redis: An in-memory data structure store.",
+      "Cloudinary: A cloud-based image and video management service.",
+      "EmailJS: A service for sending emails directly from client-side JavaScript.",
+      "Axios: A promise-based HTTP client for the browser and Node.js.",
+      "React Query: A library for fetching, caching, and updating data in React applications."
+    ],
+    "workflow": "The main workflow involves developing features for personal memory storage, ensuring data privacy, and enhancing user experience."
+  },
+  "rules": [
+    {
+      "trigger": "specific_command",
+      "response": "Ensure to follow the guidelines in DOCUMENTATION.md section 'Best Practices'."
+    },
+    {
+      "trigger": "another_command",
+      "response": "Refer to the workflow described in DOCUMENTATION.md section 'Project Structure'."
+    },
+    {
+      "trigger": "testing_command",
+      "response": "Follow the testing strategies outlined in DOCUMENTATION.md section 'Testing'."
+    },
+    {
+      "trigger": "deployment_command",
+      "response": "Refer to the deployment process in DOCUMENTATION.md section 'Deployment'."
+    },
+    {
+      "trigger": "installation_command",
+      "response": "Check the installation steps in DOCUMENTATION.md section 'Installation and Setup'."
+    },
+    {
+      "trigger": "feature_command",
+      "response": "Review the core features in DOCUMENTATION.md section 'Core Features'."
+    }
+  ]
+} 
