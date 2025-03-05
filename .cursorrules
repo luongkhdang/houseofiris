@@ -41,5 +41,20 @@
       "trigger": "feature_command",
       "response": "Review the core features in DOCUMENTATION.md section 'Core Features'."
     }
-  ]
+  ],
+  "documentation_standards": {
+    "general_guidelines": [
+      "Use Markdown format for all documentation files.",
+      "Follow the established structure outlined in the LLM Prompt Footer.",
+      "Ensure that all documentation is clear, concise, and easy to understand."
+    ],
+    "section_specific_rules": {
+      "Introduction": "Provide a brief overview of the section's purpose and relevance to the project.",
+      "Code Examples": "Use syntax highlighting for code snippets to enhance readability.",
+      "Testing": "Include clear instructions for running tests, specifying requirements for passing and coverage goals.",
+      "Best Practices": "Document best practices for coding, testing, and documentation to guide contributors."
+    },
+    "review_process": "All documentation changes must be reviewed by at least one other team member before merging.",
+    "updates": "Regularly review and update documentation to reflect changes in the codebase, features, and project structure."
+  }
 } 
