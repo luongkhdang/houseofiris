@@ -19,42 +19,42 @@
   "rules": [
     {
       "trigger": "specific_command",
-      "response": "Ensure to follow the guidelines in DOCUMENTATION.md section 'Best Practices'."
+      "response": "Follow the guidelines in DOCUMENTATION.md under 'Best Practices'."
     },
     {
       "trigger": "another_command",
-      "response": "Refer to the workflow described in DOCUMENTATION.md section 'Project Structure'."
+      "response": "Refer to the workflow in DOCUMENTATION.md under 'Project Structure'."
     },
     {
       "trigger": "testing_command",
-      "response": "Follow the testing strategies outlined in DOCUMENTATION.md section 'Testing'."
+      "response": "Adhere to the testing strategies in DOCUMENTATION.md under 'Testing'."
     },
     {
       "trigger": "deployment_command",
-      "response": "Refer to the deployment process in DOCUMENTATION.md section 'Deployment'."
+      "response": "Consult the deployment process in DOCUMENTATION.md under 'Deployment'."
     },
     {
       "trigger": "installation_command",
-      "response": "Check the installation steps in DOCUMENTATION.md section 'Installation and Setup'."
+      "response": "Review the installation steps in DOCUMENTATION.md under 'Installation and Setup'."
     },
     {
       "trigger": "feature_command",
-      "response": "Review the core features in DOCUMENTATION.md section 'Core Features'."
+      "response": "Examine the core features in DOCUMENTATION.md under 'Core Features'."
     }
   ],
   "documentation_standards": {
     "general_guidelines": [
       "Use Markdown format for all documentation files.",
       "Follow the established structure outlined in the LLM Prompt Footer.",
-      "Ensure that all documentation is clear, concise, and easy to understand."
+      "Ensure documentation is clear, concise, and easy to understand."
     ],
     "section_specific_rules": {
-      "Introduction": "Provide a brief overview of the section's purpose and relevance to the project.",
-      "Code Examples": "Use syntax highlighting for code snippets to enhance readability.",
-      "Testing": "Include clear instructions for running tests, specifying requirements for passing and coverage goals.",
-      "Best Practices": "Document best practices for coding, testing, and documentation to guide contributors."
+      "Introduction": "Provide a brief overview of the section's purpose and relevance.",
+      "Code Examples": "Use syntax highlighting for code snippets.",
+      "Testing": "Include instructions for running tests, specifying passing and coverage goals.",
+      "Best Practices": "Document best practices for coding, testing, and documentation."
     },
-    "review_process": "All documentation changes must be reviewed by at least one other team member before merging.",
-    "updates": "Regularly review and update documentation to reflect changes in the codebase, features, and project structure."
+    "review_process": "All documentation changes must be reviewed by at least one team member before merging.",
+    "updates": "Regularly review and update documentation to reflect changes in the codebase."
   }
 } 

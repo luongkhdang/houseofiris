@@ -1,3 +1,24 @@
+/**
+ * QUALITY CHECK:
+ * Strengths:
+ * - Clear "use client" directive for client-side rendering
+ * - Good use of React Query for data fetching
+ * - Well-structured component with proper TypeScript typing
+ * - Clean implementation of drag and swipe functionality
+ * - Good error and empty state handling
+ * - Nice use of Framer Motion for animations
+ * 
+ * Recommendations:
+ * - Add JSDoc comments to document component purpose and behavior
+ * - Extract drag handling logic to a custom hook for reusability
+ * - Add loading state visualization beyond just using placeholders
+ * - Implement accessibility features (keyboard navigation, ARIA attributes)
+ * - Consider adding lazy loading for images
+ * - Add unit tests for this component
+ * - Consider adding prop types for better documentation
+ * - Add memoization for performance optimization
+ */
+
 "use client";
 
 import React, { useState, useRef } from "react";

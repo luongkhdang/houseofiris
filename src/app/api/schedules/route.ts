@@ -1,3 +1,24 @@
+/**
+ * QUALITY CHECK:
+ * Strengths:
+ * - Well-defined TypeScript interface for Schedule with comprehensive fields
+ * - Good error handling with try/catch blocks and appropriate status codes
+ * - Input validation for schedules (e.g., preventing past dates)
+ * - Array validation before processing
+ * - Proper use of NextResponse for API responses
+ * 
+ * Recommendations:
+ * - Use the Redis utility from src/utils/redis.ts instead of creating a new connection
+ * - Add more comprehensive input validation using a schema validator like Zod
+ * - Extract common data operations into reusable functions
+ * - Implement pagination for large result sets
+ * - Add authentication and authorization checks
+ * - Add rate limiting to prevent abuse
+ * - Consider adding an update (PUT) endpoint for modifying schedules
+ * - Add JSDoc comments to document endpoint behavior
+ * - Implement more robust date handling with a library like date-fns
+ */
+
 import { NextResponse } from "next/server";
 import Redis from "ioredis";
 
@@ -53,7 +74,7 @@ export async function POST(req: Request) {
 
     const scheduleDate = new Date(body.date);
     const today = new Date();
-    today.setHours(0, 0, 0, 0); // Normalize today’s date
+    today.setHours(0, 0, 0, 0); // Normalize today's date
 
     // Prevent scheduling for past dates
     if (scheduleDate < today) {

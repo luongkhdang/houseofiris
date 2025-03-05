@@ -29,11 +29,14 @@ const Timer: React.FC = () => {
     };
 
     updateTimer(); // Initialize immediately
-    const intervalId = setInterval(updateTimer, 1000); // Update every second
+    
+    // Use window.setInterval explicitly to make it clear what we're using
+    const intervalId = window.setInterval(updateTimer, 1000); // Update every second
 
     return () => {
       console.log('Timer unmounted'); // Debug unmount
-      clearInterval(intervalId);
+      // Use window.clearInterval explicitly for testability
+      window.clearInterval(intervalId);
     };
   }, []); // No need for `targetDate` in the dependency array
 

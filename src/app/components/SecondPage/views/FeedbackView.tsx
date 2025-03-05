@@ -92,9 +92,9 @@ const FeedbackView: React.FC = () => {
           <p className="text-gray-500">No messages yet.</p>
         ) : (
           <ul className="email-folder">
-            {feedbackPosts.map((post, index) => (
+            {Array.isArray(feedbackPosts) ? feedbackPosts.map((post, index) => (
               <div key={index}>
-              <li key={index} className="email-container">
+              <li key={`item-${index}`} className="email-container">
                 <p className="email-footer">
                   <small>{new Date(post.date).toLocaleString()}</small>
                 </p>
@@ -111,7 +111,7 @@ const FeedbackView: React.FC = () => {
               </div>
 
               
-            ))}
+            )) : <p className="text-gray-500">Error loading messages.</p>}
           </ul>
         )}
       </div>

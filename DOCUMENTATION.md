@@ -1,28 +1,28 @@
 # Comprehensive Documentation for House of Iris and Tommy
 
 ## Introduction
-The House of Iris and Tommy project is a personal memory storage application using modern web technologies. This document serves as a comprehensive guide for developers and contributors, outlining the purpose, structure, and best practices for the project.
+The **House of Iris and Tommy** project is a personal memory storage application built using modern web technologies. This document serves as a comprehensive guide for developers and contributors, outlining the project's purpose, structure, and best practices.
 
 ## Project Structure
 
 1. **Directory Layout**
-   - **`/components`**: Contains reusable React components used throughout the application. Each component is designed to be modular and can be easily integrated into different parts of the application.
-   - **`/pages`**: Houses the Next.js pages, each corresponding to a route in the application. This structure allows for easy navigation and routing.
-   - **`/styles`**: Includes global and component-specific styles, utilizing Tailwind CSS.
-   - **`/utils`**: Utility functions and helpers that are used across different parts of the application.
-   - **`/public`**: Static assets like images and fonts that are directly served by the server.
-   - **`/api`**: API routes for server-side logic, leveraging Next.js API routes.
-   - **`/lib`**: Contains libraries and configurations, such as the query client for React Query.
-   - **`/hooks`**: Custom React hooks for managing state and side effects.
-   - **`/types`**: TypeScript type definitions used throughout the application.
+   - **`/components`**: Reusable React components.
+   - **`/pages`**: Next.js pages corresponding to application routes.
+   - **`/styles`**: Global and component-specific styles using Tailwind CSS.
+   - **`/utils`**: Utility functions and helpers.
+   - **`/public`**: Static assets like images and fonts.
+   - **`/api`**: API routes for server-side logic.
+   - **`/lib`**: Libraries and configurations, including React Query.
+   - **`/hooks`**: Custom React hooks.
+   - **`/types`**: TypeScript type definitions.
 
-2. **Key Components and Their Roles**
-   - **Memory Storage Component**: Manages the storage and retrieval of personal memories.
-   - **User Authentication Component**: Handles user login, registration, and authentication processes.
-   - **Media Upload Component**: Facilitates the uploading of photos and videos to Cloudinary.
-   - **Email Notification Component**: Uses EmailJS to send notifications and updates to users.
-   - **Gallery Component**: Displays photos in a gallery format, allowing users to swipe through images.
-   - **Feedback Component**: Collects user feedback and displays it in a structured format.
+2. **Key Components**
+   - **Memory Storage**: Manages personal memories.
+   - **User Authentication**: Handles login and registration.
+   - **Media Upload**: Uploads photos and videos to Cloudinary.
+   - **Email Notification**: Sends notifications using EmailJS.
+   - **Gallery**: Displays photos in a gallery format.
+   - **Feedback**: Collects and displays user feedback.
 
 3. **Configuration Files and Their Purposes**
    - **`next.config.js`**: Configuration file for customizing Next.js settings.
@@ -99,48 +99,38 @@ house-of-iris-and-tommy/
 ## Installation and Setup
 
 1. **Prerequisites**
-   - Ensure you have Node.js (version 14.x or later) and npm (version 6.x or later) installed on your machine.
-   - Install Git for version control.
+   - Node.js (14.x or later) and npm (6.x or later).
+   - Git for version control.
 
 2. **Clone the Repository**
-   - Open your terminal and run the following command to clone the repository:
-     ```bash
-     git clone https://github.com/yourusername/house-of-iris-and-tommy.git
-     ```
-   - Navigate into the project directory:
-     ```bash
-     cd house-of-iris-and-tommy
-     ```
+   ```bash
+   git clone https://github.com/yourusername/house-of-iris-and-tommy.git
+   cd house-of-iris-and-tommy
+   ```
 
 3. **Install Dependencies**
-   - Run the following command to install the necessary dependencies:
-     ```bash
-     npm install
-     ```
+   ```bash
+   npm install
+   ```
 
 4. **Environment Configuration**
-   - Create a `.env` file in the root directory of the project.
-   - Add the following environment variables, replacing the placeholders with your actual values:
+   - Create a `.env` file and add:
      ```plaintext
      NEXT_PUBLIC_CLOUDINARY_URL=your_cloudinary_url
      EMAILJS_USER_ID=your_emailjs_user_id
      REDIS_URL=your_redis_url
      ```
-   - Ensure that the variable names match those used in the codebase for proper functionality.
 
 5. **Run the Development Server**
-   - Start the development server by running:
-     ```bash
-     npm run dev
-     ```
-   - Open your browser and navigate to `http://localhost:3000` to view the application.
+   ```bash
+   npm run dev
+   ```
+   - Access the application at `http://localhost:3000`.
 
 6. **Build for Production**
-   - To build the application for production, run:
-     ```bash
-     npm run build
-     ```
-   - This will create an optimized build in the `.next` directory.
+   ```bash
+   npm run build
+   ```
 
 ## Core Features
 1. **Comprehensive Memory Management**
@@ -382,81 +372,49 @@ house-of-iris-and-tommy/
 
 ## Testing Strategy
 
-The testing strategy for the House of Iris and Tommy project aims to ensure the quality, functionality, and security of the application. This section outlines the types of tests to be implemented, the areas to be tested, and the overall approach to testing.
+The House of Iris and Tommy project employs a robust testing strategy to ensure the quality, functionality, and security of the application. This section outlines the testing framework used, how to run tests, the structure of the tests, and additional recommendations.
 
-### 1. Unit Tests
-Unit tests are designed to verify the functionality of individual components and utility functions in isolation. The following areas will be covered:
+### Testing Frameworks
+- **Jest**: A JavaScript testing framework used for unit and integration testing.
+- **React Testing Library**: A library for testing React components, focusing on user interactions.
+- **Cypress**: A framework for end-to-end testing, simulating real user scenarios.
+- **Lighthouse**: A tool for performance testing.
+- **OWASP ZAP**: A tool for security testing.
 
-- **Components**
-  - **Memory Storage Component**: Test functions for adding, retrieving, and deleting memories.
-  - **User Authentication Component**: Test login, registration, and logout functionalities.
-  - **Media Upload Component**: Test file upload handling and error management.
-  - **Gallery Component**: Test rendering of images and handling of user interactions (e.g., swiping).
-  - **Feedback Component**: Test feedback submission and display of feedback data.
+### Running Tests
+To run the tests, use the following command:
 
-- **Utilities**
-  - **Photo Service**: Test API calls for fetching and managing photos.
-  - **Email Service**: Test email sending functionality and error handling.
-  - **Schedule Service**: Test schedule management functions (fetching, saving, deleting).
-  - **Optimized URL Generator**: Test URL generation logic for different image sizes.
+```bash
+npm test
+```
 
-- **Hooks**
-  - **useSessionReset**: Test session reset functionality and state management.
+### Test Structure
+- **API Tests**: Located in `src/__tests__/api/`
+- **Component Tests**: Located in `src/__tests__/components/`
 
-### 2. Integration Tests
-Integration tests verify that different components and services work together as expected. The following interactions will be tested:
+### Code Coverage
+To monitor how much of your code is covered by tests, Jest's built-in coverage reporting can be used. Update your `package.json` test script to include coverage:
 
-- **Component Interactions**
-  - **Memory Storage and Gallery Components**: Test the interaction between memory storage and gallery display.
-  - **User Authentication and Feedback Component**: Test the flow of user authentication and subsequent feedback submission.
-  - **Media Upload and Gallery Components**: Test the integration of media uploads and their display in the gallery.
+```json
+"scripts": {
+  "test": "jest --coverage"
+}
+```
 
-- **API Integration**
-  - **Feedback API**: Test the integration of the feedback component with the API for submitting and retrieving feedback.
-  - **Photo API**: Test the integration of the gallery component with the photo API for fetching images.
+### Continuous Integration (CI)
+A CI pipeline can be set up using GitHub Actions to automate testing on every push or pull request.
 
-### 3. End-to-End Tests
-End-to-end tests simulate real user scenarios to ensure the application behaves as expected. The following user flows will be tested:
+### Performance and Security Testing
+Integrate performance testing tools like Lighthouse and security testing tools like OWASP ZAP into your CI pipeline to ensure the application meets performance benchmarks and is secure.
 
-- **User Flows**
-  - **User Registration and Login**: Test the complete flow of user registration, login, and logout.
-  - **Memory Upload Process**: Test the entire process of uploading a memory, including file selection, tagging, and confirmation.
-  - **Album Creation and Sharing**: Test the flow of creating an album, adding memories, and sharing it with other users.
-  - **Feedback Submission**: Test the process of submitting feedback and viewing submitted feedback.
+### User Acceptance Testing (UAT)
+Engage users to test the application and provide feedback. This can help identify usability issues and areas for improvement.
 
-- **Responsive Design**
-  - Test the application on different devices and screen sizes to ensure a responsive layout and functionality.
-
-### 4. Performance Tests
-Performance tests assess the application's responsiveness and stability under load. The following areas will be evaluated:
-
-- **Load Testing**
-  - Test the application under heavy load to ensure it can handle multiple users uploading memories and interacting with the gallery simultaneously.
-
-- **API Response Times**
-  - Measure the response times of API calls to ensure they meet performance benchmarks.
-
-### 5. Security Tests
-Security tests identify vulnerabilities in the application. The following areas will be examined:
-
-- **Authentication and Authorization**
-  - Test for vulnerabilities in the user authentication process, including SQL injection and cross-site scripting (XSS).
-  - Ensure that users cannot access unauthorized routes or data.
-
-### 6. Accessibility Tests
-Accessibility tests ensure that the application is usable by people with disabilities. The following areas will be assessed:
-
-- **Screen Reader Compatibility**
-  - Test the application with screen readers to ensure that all components are accessible.
-  
-- **Keyboard Navigation**
-  - Ensure that all interactive elements can be navigated using a keyboard.
-
-### 7. Code Coverage
-All tests should aim for at least 80% code coverage, focusing on critical functionalities and components. Code coverage helps identify untested parts of the codebase and ensures that critical functionality is adequately tested.
+### Regular Documentation Updates
+Keep the documentation up to date with any changes in the codebase, features, or testing strategies. This is crucial for onboarding new developers and maintaining project clarity.
 
 ### Conclusion
-By implementing a comprehensive testing strategy that includes unit tests, integration tests, end-to-end tests, performance tests, security tests, accessibility tests, and code coverage, the House of Iris and Tommy project can maintain high quality, ensure functionality, and provide a seamless user experience.
+By implementing a comprehensive testing strategy that includes unit tests, integration tests, end-to-end tests, performance tests, and security tests, the House of Iris and Tommy project can maintain high quality, ensure functionality, and provide a seamless user experience.
 
 ## Deployment
 1. **Prerequisites**
@@ -603,3 +561,22 @@ This section provides the current version numbers for the key technologies and l
   ```bash
   npm list --depth=0
   ```
+
+## Testing
+
+The House of Iris and Tommy project uses Jest and React Testing Library for testing components and API routes. 
+
+### Running Tests
+To run the tests, use the following command:
+
+```bash
+npm test
+```
+
+### Test Structure
+- **API Tests**: Located in `src/__tests__/api/`
+- **Component Tests**: Located in `src/__tests__/components/`
+
+### Adding New Tests
+When adding new features or components, ensure to create corresponding tests to maintain code quality and functionality.
+

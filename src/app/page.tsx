@@ -1,3 +1,19 @@
+/**
+ * QUALITY CHECK:
+ * Strengths:
+ * - Clean conditional rendering based on page state
+ * - Good use of custom hooks for state management
+ * - Proper component typing with React.FC
+ * - "use client" directive correctly applied for client-side rendering
+ * 
+ * Recommendations:
+ * - Add JSDoc comments to explain component purpose and behavior
+ * - Consider extracting the page routing logic to a separate component or hook
+ * - Add more semantic HTML structure (e.g., main, section tags)
+ * - Missing aria attributes for accessibility
+ * - The root div doesn't have any semantic meaning or styling classes
+ */
+
 "use client";
 
 import React, { useState } from "react";

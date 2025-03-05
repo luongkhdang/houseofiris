@@ -1,0 +1,30 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "name": "Tommy",
+      "email": "tommy@example.com",
+      "role": "admin"
+    },
+    {
+      "id": 2,
+      "name": "Iris",
+      "email": "iris@example.com",
+      "role": "user"
+    }
+  ],
+  "photos": [
+    {
+      "id": 1,
+      "title": "Vacation photo",
+      "url": "/images/sample1.jpg",
+      "description": "Tommy and Iris on vacation"
+    },
+    {
+      "id": 2,
+      "title": "Wedding photo",
+      "url": "/images/sample2.jpg",
+      "description": "Tommy and Iris wedding"
+    }
+  ]
+} 
