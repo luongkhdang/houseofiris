@@ -16,18 +16,26 @@
     "workflow": "Develop features, ensure security, optimize performance, and enhance UX."
   },
   "rules": [
-    { "trigger": "specific_command", "response": "See DOCUMENTATION.md > 'Best Practices'." },
-    { "trigger": "another_command", "response": "See DOCUMENTATION.md > 'Project Structure'." },
-    { "trigger": "testing_command", "response": "See DOCUMENTATION.md > 'Testing'." },
-    { "trigger": "deployment_command", "response": "See DOCUMENTATION.md > 'Deployment'." },
-    { "trigger": "installation_command", "response": "See DOCUMENTATION.md > 'Installation'." },
-    { "trigger": "feature_command", "response": "See DOCUMENTATION.md > 'Core Features'." }
+    { "trigger": "specific_command", "response": "See docs/DOCUMENTATION.md > 'Development Guidelines'." },
+    { "trigger": "another_command", "response": "See docs/DOCUMENTATION.md > 'Overview > Project Structure'." },
+    { "trigger": "testing_command", "response": "See docs/DOCUMENTATION.md > 'Testing'." },
+    { "trigger": "deployment_command", "response": "See docs/DOCUMENTATION.md > 'Overview > Installation'." },
+    { "trigger": "installation_command", "response": "See docs/DOCUMENTATION.md > 'Overview > Installation'." },
+    { "trigger": "feature_command", "response": "See docs/DOCUMENTATION.md > 'Overview > Key Features'." },
+    { "trigger": "performance_command", "response": "See docs/DOCUMENTATION.md > 'Performance'." },
+    { "trigger": "ui_command", "response": "See docs/DOCUMENTATION.md > 'UI/UX'." },
+    { "trigger": "api_command", "response": "See docs/DOCUMENTATION.md > 'API and State Management'." },
+    { "trigger": "refactoring_command", "response": "See docs/DOCUMENTATION.md > 'Development Guidelines'." },
+    { "trigger": "build_issues_command", "response": "See docs/DOCUMENTATION.md > 'Troubleshooting'." },
+    { "trigger": "documentation_command", "response": "See docs/DOCUMENTATION.md > 'AI Agent Guide'." }
   ],
   "docs": {
     "guidelines": [
       "Use Markdown format.",
       "Keep documentation clear and structured.",
-      "Follow standard format from documentation index."
+      "Follow standard format from documentation index.",
+      "If the documentation is not there, think through the project and come up with a plan to make one before making one.",
+      "If it is a checklist or plan, directly checkoff each item on the list once completed and tested. Also add notes."
     ],
     "sections": {
       "Intro": "Brief project overview.",
@@ -35,8 +43,16 @@
       "Testing": "Describe execution and success criteria.",
       "Best Practices": "Coding, testing, and documentation standards."
     },
+    "changes_log": {
+      "brief": "Date - File(s) changed - Short sentence summary.",
+      "detailed": "Full summary and notes for each change."
+    },
     "review": "Require review before merging changes.",
-    "updates": "Update docs to reflect codebase changes."
+    "updates": "Update docs to reflect codebase changes.",
+    "plans": {
+      "description": "If a project plan is needed, generate one by analyzing the project details and save it as a file in the plans folder.",
+      "file": "plans/plan.md"
+    }
   },
   "tech": {
     "goal": "Build a secure, performant, and maintainable Next.js app.",

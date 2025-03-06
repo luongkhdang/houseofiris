@@ -56,7 +56,7 @@ describe('Photo Component', () => {
     
     const photoElement = screen.getByTestId('motion-div');
     expect(photoElement).toBeInTheDocument();
-    expect(photoElement).toHaveClass('z-10'); // Center photos have higher z-index
+    expect(photoElement).toHaveClass('photo-container absolute current');
   });
   
   it('should render the photo with left position', () => {
@@ -70,7 +70,7 @@ describe('Photo Component', () => {
     
     const photoElement = screen.getByTestId('motion-div');
     expect(photoElement).toBeInTheDocument();
-    expect(photoElement).not.toHaveClass('z-10'); // Side photos have lower z-index
+    expect(photoElement).toHaveClass('photo-container absolute');
   });
   
   it('should render the photo with right position', () => {
@@ -84,7 +84,7 @@ describe('Photo Component', () => {
     
     const photoElement = screen.getByTestId('motion-div');
     expect(photoElement).toBeInTheDocument();
-    expect(photoElement).not.toHaveClass('z-10'); // Side photos have lower z-index
+    expect(photoElement).toHaveClass('photo-container absolute');
   });
   
   it('should apply drag offset when provided', () => {

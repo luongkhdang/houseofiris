@@ -2,18 +2,17 @@
  * Tests for the GalleryPage component
  * 
  * This file contains tests for the GalleryPage component, including
- * loading states, error handling, and user interactions.
+ * loading states, error handling, and navigation.
  */
 
 import React from 'react';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
-import '@testing-library/jest-dom'; // Import jest-dom for the toBeInTheDocument matcher
+import '@testing-library/jest-dom';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import GalleryPage from '../../../features/gallery/components/GalleryPage';
 import { usePhotos } from '../../../features/gallery/services/photoService';
-import { Photo } from '../../../features/gallery/services/photoService';
 
-// Mock the photoService hooks
+// Mock the usePhotos hook
 jest.mock('../../../features/gallery/services/photoService', () => ({
   usePhotos: jest.fn(),
   Photo: jest.requireActual('../../../features/gallery/services/photoService').Photo,
@@ -30,15 +29,33 @@ jest.mock('framer-motion', () => {
         <div {...props}>{children}</div>
       ),
     },
-    AnimatePresence: ({ children }: React.PropsWithChildren<unknown>) => <>{children}</>,
+    AnimatePresence: ({ children }: React.PropsWithChildren) => <>{children}</>,
+    useMotionValue: () => ({
+      get: jest.fn(),
+      set: jest.fn(),
+    }),
+    useTransform: () => ({
+      get: jest.fn(),
+      onChange: (callback: (v: number) => void) => {
+        callback(0);
+        return jest.fn();
+      },
+    }),
   };
 });
 
+// Mock Next.js Image component
+jest.mock('next/image', () => ({
+  __esModule: true,
+  default: (props: React.ComponentProps<'img'>) => {
+    // eslint-disable-next-line @next/next/no-img-element, jsx-a11y/alt-text
+    return <img {...props} />;
+  },
+}));
+
 describe('GalleryPage Component', () => {
-  let queryClient: QueryClient;
-  
   // Sample photo data for testing
-  const mockPhotos: Photo[] = [
+  const mockPhotos = [
     {
       url: 'https://example.com/photo1.jpg',
       public_id: 'photo1',
@@ -46,6 +63,7 @@ describe('GalleryPage Component', () => {
       title: 'Test Photo 1',
       description: 'Description for test photo 1',
       location: 'Test Location 1',
+      date: '01/01/2023',
     },
     {
       url: 'https://example.com/photo2.jpg',
@@ -54,31 +72,23 @@ describe('GalleryPage Component', () => {
       title: 'Test Photo 2',
       description: 'Description for test photo 2',
       location: 'Test Location 2',
+      date: '01/02/2023',
     },
   ];
   
   beforeEach(() => {
-    // Create a new QueryClient for each test
-    queryClient = new QueryClient({
-      defaultOptions: {
-        queries: {
-          retry: false,
-        },
-      },
-    });
-    
-    // Reset all mocks
     jest.clearAllMocks();
   });
   
-  it('should show loading state when fetching photos', () => {
+  it('should display loading state when data is loading', () => {
     // Mock the usePhotos hook to return loading state
     (usePhotos as jest.Mock).mockReturnValue({
       data: undefined,
       isLoading: true,
       error: null,
-      isError: false,
     });
+    
+    const queryClient = new QueryClient();
     
     render(
       <QueryClientProvider client={queryClient}>
@@ -86,18 +96,18 @@ describe('GalleryPage Component', () => {
       </QueryClientProvider>
     );
     
-    // Check if loading indicator is displayed
     expect(screen.getByText(/Loading beautiful memories/i)).toBeInTheDocument();
   });
   
-  it('should display photos when data is loaded', async () => {
+  it('should display photos when data is loaded', () => {
     // Mock the usePhotos hook to return data
     (usePhotos as jest.Mock).mockReturnValue({
       data: mockPhotos,
       isLoading: false,
       error: null,
-      isError: false,
     });
+    
+    const queryClient = new QueryClient();
     
     render(
       <QueryClientProvider client={queryClient}>
@@ -108,8 +118,8 @@ describe('GalleryPage Component', () => {
     // Check if the title is displayed
     expect(screen.getByText('Our Gallery')).toBeInTheDocument();
     
-    // Check if photo details are displayed
-    expect(screen.getByText('Test Photo 1')).toBeInTheDocument();
+    // Check if photo details are displayed - use a more specific selector
+    expect(screen.getByRole('heading', { name: 'Test Photo 1', level: 2 })).toBeInTheDocument();
   });
   
   it('should display error message when there is an error', () => {
@@ -121,13 +131,14 @@ describe('GalleryPage Component', () => {
       isError: true,
     });
     
+    const queryClient = new QueryClient();
+    
     render(
       <QueryClientProvider client={queryClient}>
         <GalleryPage />
       </QueryClientProvider>
     );
     
-    // Check if error message is displayed
     expect(screen.getByText(/Error loading photos/i)).toBeInTheDocument();
     expect(screen.getByText(/We couldn't load the photos at this time/i)).toBeInTheDocument();
   });
@@ -138,8 +149,9 @@ describe('GalleryPage Component', () => {
       data: mockPhotos,
       isLoading: false,
       error: null,
-      isError: false,
     });
+    
+    const queryClient = new QueryClient();
     
     render(
       <QueryClientProvider client={queryClient}>
@@ -151,9 +163,9 @@ describe('GalleryPage Component', () => {
     const nextButton = screen.getByLabelText('Next photo');
     fireEvent.click(nextButton);
     
-    // Check if the second photo is now displayed
+    // Check if the second photo is now displayed by looking for its title in the details section
     await waitFor(() => {
-      expect(screen.getByText('Test Photo 2')).toBeInTheDocument();
+      expect(screen.getByRole('heading', { name: 'Test Photo 2', level: 2 })).toBeInTheDocument();
     });
   });
   
@@ -163,8 +175,9 @@ describe('GalleryPage Component', () => {
       data: mockPhotos,
       isLoading: false,
       error: null,
-      isError: false,
     });
+    
+    const queryClient = new QueryClient();
     
     render(
       <QueryClientProvider client={queryClient}>
@@ -172,7 +185,7 @@ describe('GalleryPage Component', () => {
       </QueryClientProvider>
     );
     
-    // First go to the second photo
+    // Go to the second photo first
     const nextButton = screen.getByLabelText('Next photo');
     fireEvent.click(nextButton);
     
@@ -180,9 +193,9 @@ describe('GalleryPage Component', () => {
     const prevButton = screen.getByLabelText('Previous photo');
     fireEvent.click(prevButton);
     
-    // Check if the first photo is displayed again
+    // Check if the first photo is displayed again by looking for its title in the details section
     await waitFor(() => {
-      expect(screen.getByText('Test Photo 1')).toBeInTheDocument();
+      expect(screen.getByRole('heading', { name: 'Test Photo 1', level: 2 })).toBeInTheDocument();
     });
   });
   
@@ -192,8 +205,9 @@ describe('GalleryPage Component', () => {
       data: mockPhotos,
       isLoading: false,
       error: null,
-      isError: false,
     });
+    
+    const queryClient = new QueryClient();
     
     render(
       <QueryClientProvider client={queryClient}>
@@ -202,19 +216,19 @@ describe('GalleryPage Component', () => {
     );
     
     // Simulate right arrow key press to go to next photo
-    fireEvent.keyDown(window, { key: 'ArrowRight' });
+    fireEvent.keyDown(document, { key: 'ArrowRight' });
     
-    // Check if the second photo is displayed
+    // Check if the second photo is displayed by looking for its title in the details section
     await waitFor(() => {
-      expect(screen.getByText('Test Photo 2')).toBeInTheDocument();
+      expect(screen.getByRole('heading', { name: 'Test Photo 2', level: 2 })).toBeInTheDocument();
     });
     
     // Simulate left arrow key press to go back to first photo
-    fireEvent.keyDown(window, { key: 'ArrowLeft' });
+    fireEvent.keyDown(document, { key: 'ArrowLeft' });
     
-    // Check if the first photo is displayed again
+    // Check if the first photo is displayed again by looking for its title in the details section
     await waitFor(() => {
-      expect(screen.getByText('Test Photo 1')).toBeInTheDocument();
+      expect(screen.getByRole('heading', { name: 'Test Photo 1', level: 2 })).toBeInTheDocument();
     });
   });
 }); 

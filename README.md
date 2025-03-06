@@ -1,85 +1,120 @@
-# House of Iris and Tommy (Project XXX - Basic React + Typescript)
+# House of Iris
 
-![House of Iris and Tommy](DEMO2.PNG)
+![House of Iris](DEMO2.PNG)
 
-This app is a personal project where we store our memories, including photos, videos, and love letters. It is built using modern web technologies to provide a seamless user experience.
+A personal memory storage application built with modern web technologies.
+
+## Overview
+
+House of Iris is a personal project for storing memories, including photos, videos, and love letters. It provides a secure and intuitive interface for managing personal content.
 
 ## Demo
+
 Check out the live demo: [https://houseofiris.vercel.app/](https://houseofiris.vercel.app/)
-(DEMO.PNG)
 
-## Built with
-This project is built using the following technologies:
+![Demo Screenshot](DEMO.PNG)
 
-- **Next.js**: A React framework for building server-side rendered applications. **Version**: 15.1.4
-- **React**: A JavaScript library for building user interfaces. **Version**: 18.3.1
-- **TypeScript**: A superset of JavaScript that adds static types. **Version**: 5
-- **Tailwind CSS**: A utility-first CSS framework for styling. **Version**: 3.4.17
-- **Chakra UI**: A component library for React that provides accessible and reusable components. **Version**: 3.3.1
-- **Framer Motion**: A library for animations in React applications. **Version**: 11.18.0
-- **Redis**: An in-memory data structure store used for caching and data storage. **Version**: 3.0.0 (via `ioredis`)
-- **Cloudinary**: A cloud service for managing images and videos. **Version**: 2.5.1
-- **EmailJS**: A service for sending emails directly from the client-side. **Version**: 4.4.1
-- **Axios**: A promise-based HTTP client for making requests. **Version**: 1.7.9
-- **React Query**: A library for fetching, caching, and updating data in React applications. **Version**: 5.64.0
+## Technology Stack
 
-Feel free to customize this section based on any additional technologies or tools you are using in your project.
+- **Next.js** (15.1.4): React framework for web applications
+- **React** (18.3.1): JavaScript library for building user interfaces
+- **TypeScript** (5): Typed JavaScript superset
+- **Tailwind CSS** (3.4.17): Utility-first styling
+- **Chakra UI** (3.3.1): Accessible UI components
+- **Framer Motion** (11.18.0): React animations
+- **Redis** (3.0.0): In-memory data store
+- **Cloudinary** (2.5.1): Image & video CDN
+- **EmailJS** (4.4.1): Client-side email API
+- **Axios** (1.7.9): HTTP client
+- **React Query** (5.64.0): Data fetching & caching
 
-## How to build:
+## Quick Start
 
-To get started with the project, follow these steps:
+### Prerequisites
 
-1. Create a new Vite project:
+- Node.js (14.x or later)
+- npm (6.x or later)
+
+### Installation
+
+1. Clone the repository:
    ```bash
-   npm create vite@4.1.0
+   git clone https://github.com/yourusername/houseofiris.git
+   cd houseofiris
    ```
 
-2. Authenticate with GitHub:
+2. Install dependencies:
    ```bash
-   gh auth login
+   npm install
    ```
 
-3. Create a new GitHub repository:
-   ```bash
-   gh repo create <repo-name> --public
+3. Set up environment variables:
+   Create a `.env.local` file with the following variables:
+   ```
+   NEXT_PUBLIC_CLOUDINARY_URL=your_cloudinary_url
+   EMAILJS_USER_ID=your_emailjs_user_id
+   REDIS_URL=your_redis_url
    ```
 
-4. Add the remote origin:
+4. Start the development server:
    ```bash
-   git remote add origin https://github.com/luongkhdang/xxxxxxx
+   npm run dev
    ```
 
-5. Push your code to the repository:
-   ```bash
-   git push -u origin master
-   ```
+5. Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-## Mobile support
+## Build for Production
 
-This application is designed to be responsive and works well on mobile devices.
+```bash
+npm run build
+npm start
+```
 
-## Development
+## Deployment
 
-Want to contribute? Great!
+The application is deployed on Vercel. For detailed deployment instructions, see [docs/DOCUMENTATION.md](./docs/DOCUMENTATION.md#overview).
 
-To fix a bug or enhance an existing module, follow these steps:
+## Core Features
 
-### Bug / Feature Request
+- Memory Storage: Manages personal memories
+- User Authentication: Handles login and registration
+- Media Upload: Uploads photos and videos to Cloudinary
+- Email Notification: Sends notifications using EmailJS
+- Gallery: Displays photos in a gallery format
+- Feedback: Collects and displays user feedback
 
-If you have a bug or feature request, please open an issue on GitHub.
+## Documentation
 
-## To-do
+All project documentation is now consolidated in a single, comprehensive document:
 
-- [ ] Add more features
-- [ ] Improve UI/UX
-- [ ] Optimize performance
+- [Unified Documentation](./docs/DOCUMENTATION.md): Complete project documentation with all information in one place
 
-## Team
+The documentation includes:
 
-[![Luong Dang](https://avatars.githubusercontent.com/luongkhdang?v=2&s=100)](https://github.com/luongkhdang)
+- [Overview](./docs/DOCUMENTATION.md#overview): Project overview, features, and installation
+- [Development Guidelines](./docs/DOCUMENTATION.md#development-guidelines): Coding standards and best practices
+- [Testing](./docs/DOCUMENTATION.md#testing): Testing approach and guidelines
+- [Performance](./docs/DOCUMENTATION.md#performance): Performance optimization strategies
+- [UI/UX](./docs/DOCUMENTATION.md#uiux): UI/UX guidelines and components
+- [API and State Management](./docs/DOCUMENTATION.md#api-and-state-management): API structure and state management
+- [Troubleshooting](./docs/DOCUMENTATION.md#troubleshooting): Common issues and solutions
 
-[Luong Dang](https://github.com/luongkhdang)
+## Testing
 
-## [License](https://github.com/luongkhdang/xxxxx/LICENSE.md)
+```bash
+npm test
+```
+
+For detailed testing guidelines, see [docs/DOCUMENTATION.md#testing](./docs/DOCUMENTATION.md#testing).
+
+## Contributing
+
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add some amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
+
+## License
 
 MIT © [Luong Dang](https://github.com/luongkhdang)

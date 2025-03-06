@@ -8,6 +8,14 @@ jest.mock('@tanstack/react-query', () => ({
   QueryClientProvider: ({ children }: { children: React.ReactNode }) => (
     <div data-testid="mock-query-provider">{children}</div>
   ),
+  QueryClient: jest.fn().mockImplementation(() => ({
+    mount: jest.fn(),
+  })),
+}));
+
+// Mock the queryClient import
+jest.mock('../../app/lib/queryClient', () => ({
+  queryClient: {},
 }));
 
 // Mock the useSessionReset hook
