@@ -1,4 +1,3 @@
-// src/app/components/Timers.tsx
 "use client";
 
 import React, { useEffect, useState } from "react";
@@ -44,13 +43,12 @@ const Timers: React.FC = () => {
     <>
       {/* Top-right corner countdown timers */}
       <div className="timer-top-right">
-  {daysUntilNext11th}
-  {"\n"}
-  {daysUntilDec11}
-</div>
-
+        {daysUntilNext11th}
+        {"\n"}
+        {daysUntilDec11}
+      </div>
     </>
   );
 };
 
-export default Timers;
+export default Timers; 

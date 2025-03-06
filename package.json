@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev --turbopack",
+    "prebuild:check": "node scripts/check-build-issues.js",
     "build": "next build",
     "start": "next start",
     "start:e2e": "next start",

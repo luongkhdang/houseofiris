@@ -20,11 +20,11 @@
 
 import React from "react"
 import { QueryClientProvider } from "@tanstack/react-query"
-import { queryClient } from "../lib/queryClient"
-import "../styles/globals.css"
-import Timer from "./Timer"
-import Timers from "./Timers"
-import { useSessionReset } from "../hooks/useSessionReset"
+import { queryClient } from "../../app/lib/queryClient"
+import "../../app/styles/globals.css"
+import Timer from "../../components/Timer"
+import Timers from "../../components/Timers"
+import { useSessionReset } from "../../app/hooks/useSessionReset"
 
 export default function ClientLayout({
   children,

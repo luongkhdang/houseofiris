@@ -11,11 +11,15 @@
  * - Add explicit accessibility attributes for better screen reader support
  */
 
-import React from "react"
-import { metadata } from "./metadata"
-import ClientLayout from "./components/ClientLayout"
+import React from 'react';
+import { Providers } from './providers';
+import ClientLayout from '../components/layout/ClientLayout';
+import './styles/globals.css';
 
-export { metadata }
+export const metadata = {
+  title: 'House of Iris and Tommy',
+  description: 'A personal memory storage application',
+};
 
 export default function RootLayout({
   children,
@@ -25,8 +29,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <ClientLayout>{children}</ClientLayout>
+        <Providers>
+          <ClientLayout>{children}</ClientLayout>
+        </Providers>
       </body>
     </html>
-  )
+  );
 }

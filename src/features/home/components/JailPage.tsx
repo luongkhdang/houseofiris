@@ -48,4 +48,4 @@ const JailPage: React.FC<JailPageProps> = ({ onBack }) => {
   );
 };
 
-export default JailPage;
+export default JailPage; 

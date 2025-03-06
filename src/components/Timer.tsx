@@ -49,4 +49,4 @@ const Timer: React.FC = () => {
   );
 };
 
-export default Timer;
+export default Timer; 

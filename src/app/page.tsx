@@ -18,31 +18,69 @@
 
 import React, { useState } from "react";
 import { usePage } from "./hooks/usePage";
-import HomePage from "./components/HomePage";
-import SecondPage from "./components/SecondPage/";
-import GalleryPage from "./components/GalleryPage/";
-import JailPage from "./components/JailPage";
+import dynamic from 'next/dynamic';
+import { Suspense } from 'react';
+
+// Import components dynamically with loading fallbacks
+const DynamicHomePage = dynamic(() => import('../features/home/components/HomePage'), {
+  loading: () => <LoadingSpinner />,
+  ssr: true,
+});
+
+const DynamicSecondPage = dynamic(() => import("./components/SecondPage/"), {
+  loading: () => <LoadingSpinner />,
+  ssr: true,
+});
+
+const DynamicGalleryPage = dynamic(() => import("./components/GalleryPage/"), {
+  loading: () => <LoadingSpinner />,
+  ssr: false, // Disable SSR for gallery to reduce initial load time
+});
+
+const DynamicJailPage = dynamic(() => import("../features/home/components/JailPage"), {
+  loading: () => <LoadingSpinner />,
+  ssr: true,
+});
+
+// Loading spinner component
+const LoadingSpinner = () => (
+  <div className="flex items-center justify-center min-h-screen">
+    <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
+  </div>
+);
 
 const MainPage: React.FC = () => {
   const { currentPage, setCurrentPage } = usePage();
   const [isJailed, setIsJailed] = useState(false);
 
   if (isJailed) {
-    return <JailPage onBack={() => setIsJailed(false)} />;
+    return (
+      <Suspense fallback={<LoadingSpinner />}>
+        <DynamicJailPage onBack={() => setIsJailed(false)} />
+      </Suspense>
+    );
   }
 
   return (
     <div>
       {currentPage === "home" && (
-        <HomePage
-          onNext={() => setCurrentPage("second")}
-          onJail={() => setIsJailed(true)}
-        />
+        <Suspense fallback={<LoadingSpinner />}>
+          <DynamicHomePage
+            onNext={() => setCurrentPage("second")}
+            onJail={() => setIsJailed(true)}
+          />
+        </Suspense>
       )}
       {currentPage === "second" && (
-        <SecondPage onNext={() => setCurrentPage("gallery")} />
+        <Suspense fallback={<LoadingSpinner />}>
+          <DynamicSecondPage onNext={() => setCurrentPage("gallery")} />
+        </Suspense>
       )}
-      {currentPage === "gallery" && <GalleryPage />}
+      {currentPage === "gallery" && (
+        <Suspense fallback={<LoadingSpinner />}>
+          <DynamicGalleryPage />
+        </Suspense>
+      )}
     </div>
   );
 };

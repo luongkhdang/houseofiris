@@ -88,4 +88,4 @@ const HomePage: React.FC<HomePageProps> = ({ onNext, onJail }) => {
   );
 };
 
-export default HomePage;
+export default HomePage; 

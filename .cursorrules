@@ -1,60 +1,98 @@
 {
   "context": {
-    "introduction": "The House of Iris and Tommy project is a personal memory storage application using modern web technologies.",
+    "intro": "A scalable Next.js web application leveraging modern technologies.",
     "key_terms": [
-      "House of Iris and Tommy: A project for storing personal memories.",
-      "Next.js: A React framework for building web applications.",
-      "TypeScript: A typed superset of JavaScript.",
-      "Tailwind CSS: A utility-first CSS framework.",
-      "Chakra UI: A simple, modular, and accessible component library.",
-      "Framer Motion: A library for animations in React.",
-      "Redis: An in-memory data structure store.",
-      "Cloudinary: A cloud-based image and video management service.",
-      "EmailJS: A service for sending emails directly from client-side JavaScript.",
-      "Axios: A promise-based HTTP client for the browser and Node.js.",
-      "React Query: A library for fetching, caching, and updating data in React applications."
+      "Next.js: React framework for web apps.",
+      "TypeScript: Typed JavaScript superset.",
+      "Tailwind CSS: Utility-first styling.",
+      "Chakra UI: Accessible UI components.",
+      "Framer Motion: React animations.",
+      "Redis: In-memory data store.",
+      "Cloudinary: Image & video CDN.",
+      "EmailJS: Client-side email API.",
+      "Axios: HTTP client.",
+      "React Query: Data fetching & caching."
     ],
-    "workflow": "The main workflow involves developing features for personal memory storage, ensuring data privacy, and enhancing user experience."
+    "workflow": "Develop features, ensure security, optimize performance, and enhance UX."
   },
   "rules": [
-    {
-      "trigger": "specific_command",
-      "response": "Follow the guidelines in DOCUMENTATION.md under 'Best Practices'."
-    },
-    {
-      "trigger": "another_command",
-      "response": "Refer to the workflow in DOCUMENTATION.md under 'Project Structure'."
-    },
-    {
-      "trigger": "testing_command",
-      "response": "Adhere to the testing strategies in DOCUMENTATION.md under 'Testing'."
-    },
-    {
-      "trigger": "deployment_command",
-      "response": "Consult the deployment process in DOCUMENTATION.md under 'Deployment'."
-    },
-    {
-      "trigger": "installation_command",
-      "response": "Review the installation steps in DOCUMENTATION.md under 'Installation and Setup'."
-    },
-    {
-      "trigger": "feature_command",
-      "response": "Examine the core features in DOCUMENTATION.md under 'Core Features'."
-    }
+    { "trigger": "specific_command", "response": "See DOCUMENTATION.md > 'Best Practices'." },
+    { "trigger": "another_command", "response": "See DOCUMENTATION.md > 'Project Structure'." },
+    { "trigger": "testing_command", "response": "See DOCUMENTATION.md > 'Testing'." },
+    { "trigger": "deployment_command", "response": "See DOCUMENTATION.md > 'Deployment'." },
+    { "trigger": "installation_command", "response": "See DOCUMENTATION.md > 'Installation'." },
+    { "trigger": "feature_command", "response": "See DOCUMENTATION.md > 'Core Features'." }
   ],
-  "documentation_standards": {
-    "general_guidelines": [
-      "Use Markdown format for all documentation files.",
-      "Follow the established structure outlined in the LLM Prompt Footer.",
-      "Ensure documentation is clear, concise, and easy to understand."
+  "docs": {
+    "guidelines": [
+      "Use Markdown format.",
+      "Keep documentation clear and structured.",
+      "Follow standard format from documentation index."
     ],
-    "section_specific_rules": {
-      "Introduction": "Provide a brief overview of the section's purpose and relevance.",
-      "Code Examples": "Use syntax highlighting for code snippets.",
-      "Testing": "Include instructions for running tests, specifying passing and coverage goals.",
-      "Best Practices": "Document best practices for coding, testing, and documentation."
+    "sections": {
+      "Intro": "Brief project overview.",
+      "Code Examples": "Use syntax highlighting.",
+      "Testing": "Describe execution and success criteria.",
+      "Best Practices": "Coding, testing, and documentation standards."
     },
-    "review_process": "All documentation changes must be reviewed by at least one team member before merging.",
-    "updates": "Regularly review and update documentation to reflect changes in the codebase."
+    "review": "Require review before merging changes.",
+    "updates": "Update docs to reflect codebase changes."
+  },
+  "tech": {
+    "goal": "Build a secure, performant, and maintainable Next.js app.",
+    "code_style": [
+      "Use TypeScript for type safety.",
+      "Favor functional programming.",
+      "Follow DRY (Don't Repeat Yourself).",
+      "Use descriptive names (isLoading, hasError).",
+      "Organize files logically (components, utils, types).",
+      "Use lowercase-dash directories (e.g., components/auth-wizard)."
+    ],
+    "optimization": [
+      "Minimize 'use client' and 'useEffect'.",
+      "Leverage React Server Components & SSR.",
+      "Use dynamic imports for optimization.",
+      "Adopt mobile-first responsive design.",
+      "Optimize images (WebP, lazy loading, CDN)."
+    ],
+    "error_handling": [
+      "Use guard clauses & early returns.",
+      "Standardize error handling with custom types.",
+      "Validate with schema-based tools (e.g., Zod)."
+    ],
+    "ui": [
+      "Use Tailwind, Shadcn, or Radix.",
+      "Maintain design consistency & accessibility."
+    ],
+    "state_mgmt": [
+      "Use Zustand or React Query.",
+      "Ensure stable & reusable data-fetching."
+    ],
+    "security_performance": [
+      "Validate user input.",
+      "Follow secure coding practices.",
+      "Optimize with caching & lazy loading."
+    ],
+    "testing": [
+      "Write unit tests (Jest, React Testing Library).",
+      "Use comments & JSDoc for clarity.",
+      "Document components & utilities."
+    ],
+    "methodology": [
+      "Systematic Thinking: Step-by-step analysis.",
+      "Evaluative Approach: Consider alternative solutions.",
+      "Iterative Refinement: Optimize before finalizing."
+    ],
+    "environment": [
+      "Tech Stack: ReactJS, Next.js, TypeScript, TailwindCSS."
+    ],
+    "implementation": [
+      "Use early returns for readability.",
+      "Only use Tailwind for styling.",
+      "Use descriptive handlers (handleClick, handleKeyDown).",
+      "Ensure accessibility (tabindex, aria-label).",
+      "Define functions as const & use explicit types.",
+      "No placeholders; ensure production readiness."
+    ]
   }
-} 
+}

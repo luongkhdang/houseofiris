@@ -47,14 +47,18 @@ export async function GET() {
     const today = new Date();
     today.setHours(0, 0, 0, 0); // Normalize to start of the day
 
+    // Calculate yesterday's date
+    const yesterday = new Date(today);
+    yesterday.setDate(today.getDate() - 1);
+
     // Ensure schedules is always an array
     if (!Array.isArray(schedules)) {
       console.error("Invalid schedules format:", schedules);
       return NextResponse.json([]);
     }
 
-    // Filter out past schedules
-    const upcomingSchedules = schedules.filter(schedule => new Date(schedule.date) >= today);
+    // Filter out past schedules, including today and yesterday
+    const upcomingSchedules = schedules.filter(schedule => new Date(schedule.date) >= yesterday);
 
     // Sort schedules by date (oldest to latest)
     upcomingSchedules.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
