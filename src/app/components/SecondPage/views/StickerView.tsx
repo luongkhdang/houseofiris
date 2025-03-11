@@ -7,7 +7,7 @@ const MAX_OPEN_PER_PACK = 3;
 const GRID_COLUMNS = 4;
 const GRID_CELL_SIZE = 96;
 const ADJUSTED_CELL_SIZE = GRID_CELL_SIZE - 30;
-const CURRENT_CREDIT = 27;
+const CURRENT_CREDIT = 29;
 
 interface DraggableStickerProps {
     sticker: string;
