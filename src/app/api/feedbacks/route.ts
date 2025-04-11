@@ -1,5 +1,5 @@
 /**
- * API endpoints for handling feedback data with Supabase Postgres
+ * API endpoints for handling feedback data with Supabase
  *
  * This file handles CRUD operations for feedback posts:
  * - GET: Retrieve all feedbacks sorted by date
@@ -14,45 +14,12 @@
  */
 
 import { NextResponse } from "next/server";
-import { Pool } from "pg";
+import { createClient } from "@supabase/supabase-js";
 
-// Type for error handling
-interface ErrorWithMessage {
-  message: string;
-}
-
-function isErrorWithMessage(error: unknown): error is ErrorWithMessage {
-  return (
-    typeof error === "object" &&
-    error !== null &&
-    "message" in error &&
-    typeof (error as Record<string, unknown>).message === "string"
-  );
-}
-
-function toErrorWithMessage(maybeError: unknown): ErrorWithMessage {
-  if (isErrorWithMessage(maybeError)) return maybeError;
-
-  try {
-    return new Error(JSON.stringify(maybeError));
-  } catch {
-    // fallback in case there's an error stringifying the maybeError
-    return new Error(String(maybeError));
-  }
-}
-
-function getErrorMessage(error: unknown): string {
-  return toErrorWithMessage(error).message;
-}
-
-// Create PostgreSQL connection options for Supabase
-const connectionConfig = {
-  connectionString: process.env.POSTGRES_URL,
-  ssl: { rejectUnauthorized: false },
-};
-
-// Create the pool
-const pool = new Pool(connectionConfig);
+// Create Supabase client
+const supabaseUrl = process.env.SUPABASE_URL || "";
+const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY || "";
+const supabase = createClient(supabaseUrl, supabaseKey);
 
 // Define the interface for feedback
 export interface Feedback {
@@ -62,62 +29,37 @@ export interface Feedback {
   replies?: string;
 }
 
-// Helper function to ensure the table exists
-async function ensureFeedbackTable() {
-  const client = await pool.connect();
-  try {
-    console.log("Creating feedback table if it doesn't exist...");
-
-    await client.query(`
-      CREATE TABLE IF NOT EXISTS feedbacks (
-        id SERIAL PRIMARY KEY,
-        date TIMESTAMP NOT NULL,
-        content TEXT NOT NULL,
-        replies TEXT DEFAULT '..'
-      );
-    `);
-
-    console.log("Table check complete");
-    return true;
-  } catch (error) {
-    console.error("Error creating feedbacks table:", error);
-    throw error;
-  } finally {
-    client.release();
-  }
-}
-
 // GET: Retrieve all feedbacks sorted from newest to oldest
 export async function GET() {
   console.log("GET /api/feedbacks - Starting request");
-  const client = await pool.connect();
 
   try {
-    await ensureFeedbackTable();
+    // Query all feedbacks ordered by date (newest first)
+    const { data, error } = await supabase
+      .from("feedbacks")
+      .select("*")
+      .order("date", { ascending: false });
 
-    const result = await client.query(`
-      SELECT id, date, content, replies 
-      FROM feedbacks 
-      ORDER BY date DESC;
-    `);
+    if (error) {
+      throw error;
+    }
 
-    console.log(`Retrieved ${result.rowCount} feedback items`);
-    return NextResponse.json(result.rows);
+    console.log(`Retrieved ${data?.length || 0} feedback items`);
+    return NextResponse.json(data || []);
   } catch (error: unknown) {
     console.error("Error fetching feedbacks:", error);
+    const errorMessage =
+      error instanceof Error ? error.message : "Unknown error";
     return NextResponse.json(
-      { error: `Failed to fetch feedbacks: ${getErrorMessage(error)}` },
+      { error: `Failed to fetch feedbacks: ${errorMessage}` },
       { status: 500 }
     );
-  } finally {
-    client.release();
   }
 }
 
 // POST: Add a new feedback
 export async function POST(req: Request) {
   console.log("POST /api/feedbacks - Starting request");
-  const client = await pool.connect();
 
   try {
     // Parse request body
@@ -131,26 +73,31 @@ export async function POST(req: Request) {
       );
     }
 
-    // Ensure table exists
-    await ensureFeedbackTable();
-
     // Insert new feedback
-    const result = await client.query(
-      `INSERT INTO feedbacks (date, content, replies)
-       VALUES ($1, $2, '..')
-       RETURNING id, date, content, replies;`,
-      [body.date, body.content]
-    );
+    const { data, error } = await supabase
+      .from("feedbacks")
+      .insert([
+        {
+          date: body.date,
+          content: body.content,
+          replies: "..",
+        },
+      ])
+      .select();
 
-    console.log(`Created feedback with ID: ${result.rows[0]?.id}`);
-    return NextResponse.json(result.rows[0]);
+    if (error) {
+      throw error;
+    }
+
+    console.log(`Created feedback with ID: ${data?.[0]?.id}`);
+    return NextResponse.json(data?.[0] || null);
   } catch (error: unknown) {
     console.error("Error saving feedback:", error);
+    const errorMessage =
+      error instanceof Error ? error.message : "Unknown error";
     return NextResponse.json(
-      { error: `Failed to save feedback: ${getErrorMessage(error)}` },
+      { error: `Failed to save feedback: ${errorMessage}` },
       { status: 500 }
     );
-  } finally {
-    client.release();
   }
 }
