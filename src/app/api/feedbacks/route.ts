@@ -1,80 +1,114 @@
 /**
- * QUALITY CHECK:
- * Strengths:
- * - Well-defined TypeScript interface for the Feedback object
- * - Good error handling with try/catch blocks
- * - Proper use of NextResponse for API responses
- * - Clean separation of concerns with helper functions
- * - Consistent error reporting
- * 
- * Recommendations:
- * - Use the Redis utility from src/utils/redis.ts instead of creating a new connection
- * - Add input validation for the POST request body
- * - Implement pagination for large result sets
- * - Add authentication and authorization checks
- * - Add rate limiting to prevent abuse
- * - Add better data validation before storing in Redis
- * - Sort feedbacks in the helper function instead of the route handler
- * - Consider implementing a PUT endpoint for updating feedback
- * - Add endpoint documentation with JSDoc
+ * API endpoints for handling feedback data using Supabase Postgres
+ *
+ * This file handles CRUD operations for feedback posts:
+ * - GET: Retrieve all feedbacks sorted by date
+ * - POST: Add a new feedback
+ *
+ * Exports:
+ * - GET(): Function to retrieve all feedbacks
+ * - POST(req: Request): Function to add a new feedback
+ *
+ * Related files:
+ * - src/app/components/SecondPage/views/FeedbackView.tsx (frontend component)
  */
 
 import { NextResponse } from "next/server";
-import Redis from "ioredis";
+import { Pool } from "pg";
 
-// Initialize Redis with your Redis URL
-const redis = new Redis(process.env.REDIS_URL as string);
+// Create a PostgreSQL connection pool
+const pool = new Pool({
+  connectionString: process.env.POSTGRES_URL,
+});
 
 // Define the interface for feedback
-interface Feedback {
+export interface Feedback {
+  id?: string;
   date: string;
   content: string;
   replies?: string;
 }
 
-// Helper function to get all feedbacks from Redis
-const getFeedbacks = async (): Promise<Feedback[]> => {
+// Helper function to ensure the table exists
+async function ensureFeedbackTable() {
+  const client = await pool.connect();
   try {
-    const data = await redis.get("feedbacks");
-    return data ? JSON.parse(data) : [];
+    await client.query(`
+      CREATE TABLE IF NOT EXISTS feedbacks (
+        id SERIAL PRIMARY KEY,
+        date TIMESTAMP NOT NULL,
+        content TEXT NOT NULL,
+        replies TEXT DEFAULT '..'
+      );
+    `);
   } catch (error) {
-    console.error("Error retrieving feedbacks from Redis:", error);
-    return [];
+    console.error("Error creating feedbacks table:", error);
+  } finally {
+    client.release();
   }
-};
+}
 
-// GET: Retrieve all feedbacks sorted from oldest to latest
+// GET: Retrieve all feedbacks sorted from newest to oldest
 export async function GET() {
+  const client = await pool.connect();
   try {
-    const feedbacks = await getFeedbacks();
+    // Ensure table exists before querying
+    await ensureFeedbackTable();
 
-    // Sort feedbacks from oldest to latest
-    feedbacks.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+    // Query all feedbacks ordered by date (newest first)
+    const result = await client.query(`
+      SELECT id, date, content, replies 
+      FROM feedbacks 
+      ORDER BY date DESC;
+    `);
 
-    return NextResponse.json(feedbacks);
+    return NextResponse.json(result.rows);
   } catch (error) {
     console.error("Error reading feedbacks:", error);
-    return NextResponse.json({ error: "Failed to read feedbacks" }, { status: 500 });
+    return NextResponse.json(
+      { error: "Failed to read feedbacks" },
+      { status: 500 }
+    );
+  } finally {
+    client.release();
   }
 }
 
 // POST: Add a new feedback
 export async function POST(req: Request) {
+  const client = await pool.connect();
   try {
+    // Ensure table exists before inserting
+    await ensureFeedbackTable();
+
+    // Parse request body
     const body: Feedback = await req.json();
-    const feedbacks = await getFeedbacks();
 
-    // Add new feedback with default reply as ".."
-    feedbacks.push({ ...body, replies: ".." });
+    // Validate required fields
+    if (!body.content || !body.date) {
+      return NextResponse.json(
+        { error: "Missing required fields: content and date" },
+        { status: 400 }
+      );
+    }
 
-    // Save feedbacks to Redis
-    await redis.set("feedbacks", JSON.stringify(feedbacks));
+    // Insert new feedback
+    const result = await client.query(
+      `INSERT INTO feedbacks (date, content, replies)
+       VALUES ($1, $2, '..')
+       RETURNING id, date, content, replies;`,
+      [body.date, body.content]
+    );
 
-    return NextResponse.json({ message: "Feedback saved successfully" });
+    // Return the created feedback
+    return NextResponse.json(result.rows[0]);
   } catch (error) {
     console.error("Error saving feedback:", error);
-    return NextResponse.json({ error: "Failed to save feedback" }, { status: 500 });
+    return NextResponse.json(
+      { error: "Failed to save feedback" },
+      { status: 500 }
+    );
+  } finally {
+    client.release();
   }
 }
-
- 

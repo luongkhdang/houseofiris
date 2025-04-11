@@ -22,52 +22,62 @@ Check out the live demo: [https://houseofiris.vercel.app/](https://houseofiris.v
 - **Tailwind CSS** (3.4.17): Utility-first styling
 - **Chakra UI** (3.3.1): Accessible UI components
 - **Framer Motion** (11.18.0): React animations
-- **Redis** (3.0.0): In-memory data store
+- **Supabase Postgres**: Persistent database storage
 - **Cloudinary** (2.5.1): Image & video CDN
 - **EmailJS** (4.4.1): Client-side email API
 - **Axios** (1.7.9): HTTP client
 - **React Query** (5.64.0): Data fetching & caching
 
-## Quick Start
+## Supabase Postgres Setup
 
-### Prerequisites
+To use Supabase Postgres for persistent feedback storage:
 
-- Node.js (14.x or later)
-- npm (6.x or later)
+1. Create a Supabase account at [https://supabase.com](https://supabase.com)
+2. Create a new project and get your database credentials
+3. Add the following environment variables to your `.env.local` file:
 
-### Installation
+```env
+# Supabase Postgres connection
+POSTGRES_URL=postgres://postgres.yourproject:password@aws-0-region.pooler.supabase.com:6543/postgres?sslmode=require&supa=base-pooler.x
+POSTGRES_USER=postgres
+POSTGRES_PASSWORD=your_password
+POSTGRES_HOST=db.yourproject.supabase.co
+POSTGRES_DATABASE=postgres
 
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/yourusername/houseofiris.git
-   cd houseofiris
-   ```
+# Supabase configuration
+SUPABASE_URL=https://yourproject.supabase.co
+NEXT_PUBLIC_SUPABASE_URL=https://yourproject.supabase.co
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your_anon_key
+```
 
-2. Install dependencies:
-   ```bash
-   npm install
-   ```
+4. These environment variables will be automatically available in your Vercel deployment
 
-3. Set up environment variables:
-   Create a `.env.local` file with the following variables:
-   ```
-   NEXT_PUBLIC_CLOUDINARY_URL=your_cloudinary_url
-   EMAILJS_USER_ID=your_emailjs_user_id
-   REDIS_URL=your_redis_url
-   ```
+## Development
 
-4. Start the development server:
-   ```bash
-   npm run dev
-   ```
+1. Install dependencies:
 
-5. Open [http://localhost:3000](http://localhost:3000) in your browser.
+```bash
+npm install
+```
 
-## Build for Production
+2. Run the development server:
+
+```bash
+npm run dev
+```
+
+3. Open [http://localhost:3000](http://localhost:3000) to view the app
+
+## Build
 
 ```bash
 npm run build
-npm start
+```
+
+## Testing
+
+```bash
+npm run test
 ```
 
 ## Deployment
