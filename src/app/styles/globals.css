@@ -1,6 +1,6 @@
- 
 /* Original global styles */
-html, body {
+html,
+body {
   background-color: black;
   color: white;
   margin: 0;
@@ -27,11 +27,9 @@ html, body {
   display: flex;
   justify-content: center;
   align-items: center;
-  position: relative; /* Add this */ 
+  position: relative; /* Add this */
   top: -10vh;
 }
-
-
 
 .z-50 {
   z-index: 50;
@@ -42,8 +40,6 @@ html, body {
   transition: transform 0.3s ease-in-out;
   cursor: zoom-out; /* Show zoom-out cursor */
 }
-
-
 
 /* Progress bar container */
 .progress-indicator-bar {
@@ -100,8 +96,6 @@ html, body {
   border: 2px solid yellow;
   cursor: pointer;
 }
-
-
 
 /* Timer styles - keep these global */
 .timer {
@@ -224,7 +218,6 @@ html, body {
   -webkit-overflow-scrolling: touch;
 }
 
-
 /* Schedule Container */
 .schedule-container {
   display: flex;
@@ -238,7 +231,6 @@ html, body {
   font-weight: bold;
 }
 
- 
 /* Textarea & Button Wrapper */
 .schedule-input-container {
   display: flex;
@@ -250,7 +242,7 @@ html, body {
 .schedule-textarea {
   flex-grow: 1;
   padding: 0.2rem;
-  border: 1px solid #ccc; 
+  border: 1px solid #ccc;
   min-height: 30px;
 }
 
@@ -271,7 +263,7 @@ html, body {
 
 /* Subtitle */
 .schedule-subtitle {
-  margin:0;
+  margin: 0;
   margin-top: 2vh;
   font-size: 1.25rem;
   font-weight: bold;
@@ -279,7 +271,7 @@ html, body {
 
 /* Schedule List */
 .schedule-list {
-  margin:0;
+  margin: 0;
   list-style: none;
   padding: 0;
 }
@@ -328,8 +320,6 @@ html, body {
   background-color: rgba(250, 255, 174, 0.3) !important;
 }
 
-
-
 /* Adjust hover/focus styles */
 .second-page-wrapper .react-calendar__navigation button:enabled:hover,
 .second-page-wrapper .react-calendar__navigation button:enabled:focus,
@@ -344,11 +334,11 @@ html, body {
   font-weight: bold;
 }
 
-.second-page-wrapper .react-calendar__month-view__days__day--weekend:nth-child(7n) {
+.second-page-wrapper
+  .react-calendar__month-view__days__day--weekend:nth-child(7n) {
   background-color: rgba(255, 255, 255, 0.055);
- 
 }
- 
+
 /* Style Dates from Other Months */
 .second-page-wrapper .react-calendar__month-view__days__day--neighboringMonth {
   color: gray !important; /* Change this to any color you like */
@@ -364,19 +354,13 @@ html, body {
 
 /* Highlight the 11th of every month */
 .highlight-eleventh {
- 
-    font-weight: bold;
-    color: rgb(239, 146, 252) !important; /* Ensure text is visible */
-    
+  font-weight: bold;
+  color: rgb(239, 146, 252) !important; /* Ensure text is visible */
 }
 
 .second-page-wrapper .react-calendar__tile--now {
   background-color: rgba(110, 230, 73, 0.158);
 }
-
-
-
-
 
 /* Wrapper for Textarea & Button */
 .feedback-input-container {
@@ -398,17 +382,14 @@ html, body {
   margin-bottom: 10vh;
 }
 
-
-
-
 @font-face {
-  font-family: 'Dancing Script';
-  src: url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&display=swap');
+  font-family: "Dancing Script";
+  src: url("https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&display=swap");
 }
 
 @font-face {
-  font-family: 'Cormorant Garamond';
-  src: url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600&display=swap');
+  font-family: "Cormorant Garamond";
+  src: url("https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600&display=swap");
 }
 
 /* Love Letter Box Styling */
@@ -428,7 +409,7 @@ html, body {
 }
 
 .post-container::before {
-  content: '';
+  content: "";
   position: absolute;
   top: -10px;
   left: 50%;
@@ -459,13 +440,17 @@ html, body {
   box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.1);
   position: relative;
   font-family: system-ui, -apple-system, sans-serif;
-  background-image: repeating-linear-gradient(#ffffff 0px, #ffffff 24px, #ffffff 25px);
+  background-image: repeating-linear-gradient(
+    #ffffff 0px,
+    #ffffff 24px,
+    #ffffff 25px
+  );
   transform: rotate(-1deg);
   transition: transform 0.3s ease;
 }
 
 .email-container::before {
-  content: '';
+  content: "";
   position: absolute;
   top: -8px;
   right: -8px;
@@ -485,27 +470,27 @@ html, body {
   padding-bottom: 0.5rem;
 }
 .email-folder {
-  padding:0;
+  padding: 0;
 }
 .email-content {
-  color: #2c1810;  /* Darker brown color for text */
+  color: #2c1810; /* Darker brown color for text */
   line-height: 1.8;
-  margin-top:0.5rem;
+  margin-top: 0.5rem;
   font-size: 0.8rem;
   padding: 0 1rem;
-  font-family: 'Segoe Script', 'Brush Script MT', cursive;
+  font-family: "Segoe Script", "Brush Script MT", cursive;
   letter-spacing: 0.5px;
   word-spacing: 2px;
   text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.05);
   font-weight: 500;
   font-style: italic;
-  transform: rotate(-0.5deg);  /* Slight rotation for handwriting effect */
+  transform: rotate(-0.5deg); /* Slight rotation for handwriting effect */
 }
 
 .email-content::first-letter {
   font-size: 1rem;
   font-weight: bold;
-  color: #8b4513;  /* Darker brown for first letter */
+  color: #8b4513; /* Darker brown for first letter */
 }
 
 .email-footer {
@@ -514,9 +499,9 @@ html, body {
   font-style: italic;
   text-align: right;
   margin-top: 1rem;
+  margin-right: 1rem;
 }
 
- 
 /* Previous styles remain the same until email-reply... */
 
 /* Reply Styling */
@@ -528,16 +513,14 @@ html, body {
   font-size: 0.9rem;
   margin-left: 1rem;
   box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.05);
-  font-family: 'Segoe Script', 'Brush Script MT', cursive;
+  font-family: "Segoe Script", "Brush Script MT", cursive;
   color: #d4707a;
   transform: rotate(1deg);
   position: relative;
   font-style: italic;
   letter-spacing: 0.5px;
   transition: transform 0.3s ease; /* Add transition for smooth hover effect */
-  white-space: pre-line; 
- 
-  
+  white-space: pre-line;
 }
 
 .email-reply:hover {
@@ -546,7 +529,7 @@ html, body {
 }
 
 .email-reply::before {
-  content: '❤️';
+  content: "❤️";
   position: absolute;
   top: -10px;
   left: -10px;
@@ -559,7 +542,6 @@ html, body {
   box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.15);
 }
 
-
 .boyfriend-text {
   color: #4a90e2; /* Nice blue color */
   font-size: 0.8rem; /* Bigger font */
@@ -567,16 +549,12 @@ html, body {
   text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
   display: inline-block;
   margin-right: 8px;
-  
 }
 
-
- 
- 
 .photo-container-pictureview {
   display: flex;
   align-items: center;
-  justify-content: center;   
+  justify-content: center;
   overflow: hidden;
   max-width: 500px;
   max-height: 500px;
@@ -589,22 +567,14 @@ html, body {
   max-height: 500px;
 }
 
-.center-photo{
+.center-photo {
   position: relative;
   z-index: 1000;
 }
 
-
-
-
-
-
-
-
-
 /* Sticker View Layout */
 .sticker-view {
-  @apply flex flex-col items-center p-6 ;
+  @apply flex flex-col items-center p-6;
 }
 
 /* Credits Display */
@@ -644,9 +614,8 @@ html, body {
 /* Individual Sticker Styling */
 .sticker-container {
   @apply absolute cursor-grab active:cursor-grabbing;
-  width: 96px;  /* 320px / 3 columns - some space for borders */
+  width: 96px; /* 320px / 3 columns - some space for borders */
   height: 96px;
-  
 }
 
 .sticker-image {
@@ -657,6 +626,3 @@ html, body {
 .new-stickers-container {
   @apply absolute flex gap-4;
 }
-
- 
-
