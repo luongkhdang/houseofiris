@@ -41,42 +41,6 @@ export interface Feedback {
   replies?: string;
 }
 
-// Helper function to get current date in Vietnam timezone
-// Properly handles conversion from any timezone to Vietnam time (ICT, GMT+7)
-const getCurrentVietnamDate = () => {
-  // Create a formatter that outputs in the Vietnam time zone
-  const formatter = new Intl.DateTimeFormat("en-US", {
-    timeZone: "Asia/Ho_Chi_Minh",
-    year: "numeric",
-    month: "numeric",
-    day: "numeric",
-    hour: "numeric",
-    minute: "numeric",
-    second: "numeric",
-    hour12: false,
-  });
-
-  // Get the date parts
-  const parts = formatter.formatToParts(new Date());
-
-  // Build date from parts to ensure DST is handled properly
-  const year = parts.find((part) => part.type === "year")?.value || "";
-  const month = parts.find((part) => part.type === "month")?.value || "";
-  const day = parts.find((part) => part.type === "day")?.value || "";
-  const hour = parts.find((part) => part.type === "hour")?.value || "";
-  const minute = parts.find((part) => part.type === "minute")?.value || "";
-  const second = parts.find((part) => part.type === "second")?.value || "";
-
-  // Create the date in ISO format to store in the database
-  const vietnamDate = new Date(
-    `${year}-${month.padStart(2, "0")}-${day.padStart(2, "0")}T${hour.padStart(
-      2,
-      "0"
-    )}:${minute.padStart(2, "0")}:${second.padStart(2, "0")}.000Z`
-  );
-  return vietnamDate.toISOString();
-};
-
 // Helper function to check if table exists
 async function checkFeedbackTableExists() {
   try {
@@ -116,30 +80,14 @@ CREATE TABLE IF NOT EXISTS public.feedbacks (
   }
 }
 
-// Helper function to get the next available ID
-async function getNextAvailableId() {
-  try {
-    // Query for the maximum ID
-    const { data, error } = await supabase
-      .from("feedbacks")
-      .select("id")
-      .order("id", { ascending: false })
-      .limit(1);
-
-    if (error) {
-      console.error("Error retrieving max ID:", error);
-      return null;
-    }
-
-    // If no data, start from 1, otherwise increment the highest ID
-    const nextId = data && data.length > 0 ? Number(data[0].id) + 1 : 1;
-    console.log(`Next available ID: ${nextId}`);
-    return nextId;
-  } catch (error) {
-    console.error("Error in getNextAvailableId:", error);
-    return null;
-  }
-}
+// Helper function to get current date in Vietnam timezone
+const getCurrentVietnamDate = () => {
+  const now = new Date();
+  const vietnamTime = new Date(
+    now.toLocaleString("en-US", { timeZone: "Asia/Ho_Chi_Minh" })
+  );
+  return vietnamTime.toISOString();
+};
 
 // GET: Retrieve all feedbacks sorted from newest to oldest
 export async function GET() {
@@ -213,7 +161,6 @@ export async function POST(req: Request) {
     const now = new Date();
     if (Math.abs(clientDate.getTime() - now.getTime()) < 1000) {
       body.date = getCurrentVietnamDate();
-      console.log("Updated date to Vietnam timezone:", body.date);
     }
 
     // Check if the table exists
@@ -228,21 +175,11 @@ export async function POST(req: Request) {
       );
     }
 
-    // Get the next available ID
-    const nextId = await getNextAvailableId();
-    if (nextId === null) {
-      return NextResponse.json(
-        { error: "Failed to determine next available ID" },
-        { status: 500 }
-      );
-    }
-
-    // Insert new feedback with explicit ID
+    // Insert new feedback
     const { data, error } = await supabase
       .from("feedbacks")
       .insert([
         {
-          id: nextId,
           date: body.date,
           content: body.content,
           replies: "..",

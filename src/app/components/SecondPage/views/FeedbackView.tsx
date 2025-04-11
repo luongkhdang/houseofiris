@@ -9,54 +9,27 @@ interface Feedback {
 }
 
 // Helper function to convert to Vietnam timezone with MM/DD/YYYY h:MM AM/PM format
-// Vietnam doesn't observe daylight saving time, but this handles DST properly
-// for users in other time zones viewing the app
 const formatDateToVietnamTime = (dateString: string) => {
   const options: Intl.DateTimeFormatOptions = {
-    timeZone: "Asia/Ho_Chi_Minh", // Vietnam time zone (GMT+7, no DST)
+    timeZone: "Asia/Ho_Chi_Minh",
     month: "numeric",
     day: "numeric",
     year: "numeric",
     hour: "numeric",
     minute: "2-digit",
     hour12: true,
-    timeZoneName: "short", // Adds time zone abbreviation (ICT for Indochina Time)
   };
 
   return new Date(dateString).toLocaleString("en-US", options);
 };
 
 // Get current date in Vietnam timezone
-// This properly accounts for any DST considerations between local time and Vietnam time
 const getCurrentVietnamDate = () => {
-  // Create a formatter that outputs in the Vietnam time zone
-  const formatter = new Intl.DateTimeFormat("en-US", {
-    timeZone: "Asia/Ho_Chi_Minh",
-    year: "numeric",
-    month: "numeric",
-    day: "numeric",
-    hour: "numeric",
-    minute: "numeric",
-    second: "numeric",
-    hour12: false,
-  });
-
-  // Get the date parts
-  const parts = formatter.formatToParts(new Date());
-
-  // Build date from parts to ensure DST is handled properly
-  const year = parts.find((part) => part.type === "year")?.value || "";
-  const month = parts.find((part) => part.type === "month")?.value || "";
-  const day = parts.find((part) => part.type === "day")?.value || "";
-  const hour = parts.find((part) => part.type === "hour")?.value || "";
-  const minute = parts.find((part) => part.type === "minute")?.value || "";
-  const second = parts.find((part) => part.type === "second")?.value || "";
-
-  // Create the date in ISO format to store in the database
-  const isoDate = new Date(
-    `${year}-${month}-${day}T${hour}:${minute}:${second}.000Z`
+  const now = new Date();
+  const vietnamTime = new Date(
+    now.toLocaleString("en-US", { timeZone: "Asia/Ho_Chi_Minh" })
   );
-  return isoDate.toISOString();
+  return vietnamTime.toISOString();
 };
 
 const FeedbackView: React.FC = () => {
