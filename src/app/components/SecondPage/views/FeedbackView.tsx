@@ -8,16 +8,16 @@ interface Feedback {
   replies?: string;
 }
 
-// Helper function to convert to Vietnam timezone with MM/DD/YYYY HH:MM format
+// Helper function to convert to Vietnam timezone with MM/DD/YYYY h:MM AM/PM format
 const formatDateToVietnamTime = (dateString: string) => {
   const options: Intl.DateTimeFormatOptions = {
     timeZone: "Asia/Ho_Chi_Minh",
     month: "numeric",
     day: "numeric",
     year: "numeric",
-    hour: "2-digit",
+    hour: "numeric",
     minute: "2-digit",
-    hour12: false,
+    hour12: true,
   };
 
   return new Date(dateString).toLocaleString("en-US", options);
