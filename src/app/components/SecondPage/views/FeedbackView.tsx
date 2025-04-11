@@ -8,6 +8,31 @@ interface Feedback {
   replies?: string;
 }
 
+// Helper function to convert to Vietnam timezone
+const formatDateToVietnamTime = (dateString: string) => {
+  const options: Intl.DateTimeFormatOptions = {
+    timeZone: "Asia/Ho_Chi_Minh",
+    year: "numeric",
+    month: "numeric",
+    day: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+    second: "2-digit",
+    hour12: false,
+  };
+
+  return new Date(dateString).toLocaleString("vi-VN", options);
+};
+
+// Get current date in Vietnam timezone
+const getCurrentVietnamDate = () => {
+  const now = new Date();
+  const vietnamTime = new Date(
+    now.toLocaleString("en-US", { timeZone: "Asia/Ho_Chi_Minh" })
+  );
+  return vietnamTime.toISOString();
+};
+
 const FeedbackView: React.FC = () => {
   const [feedback, setFeedback] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -39,7 +64,7 @@ const FeedbackView: React.FC = () => {
       await emailService.sendFeedback(feedback);
 
       const newFeedback = {
-        date: new Date().toISOString(),
+        date: getCurrentVietnamDate(),
         content: feedback,
       };
 
@@ -112,7 +137,7 @@ const FeedbackView: React.FC = () => {
                     className="email-container"
                   >
                     <p className="email-footer">
-                      <small>{new Date(post.date).toLocaleString()}</small>
+                      <small>{formatDateToVietnamTime(post.date)}</small>
                     </p>
                     <p className="email-header">
                       <strong>Girlfriend🐎</strong> 💌:

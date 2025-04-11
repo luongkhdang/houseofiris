@@ -80,6 +80,15 @@ CREATE TABLE IF NOT EXISTS public.feedbacks (
   }
 }
 
+// Helper function to get current date in Vietnam timezone
+const getCurrentVietnamDate = () => {
+  const now = new Date();
+  const vietnamTime = new Date(
+    now.toLocaleString("en-US", { timeZone: "Asia/Ho_Chi_Minh" })
+  );
+  return vietnamTime.toISOString();
+};
+
 // GET: Retrieve all feedbacks sorted from newest to oldest
 export async function GET() {
   // Print environment variables for debugging (only in development)
@@ -144,6 +153,14 @@ export async function POST(req: Request) {
         { error: "Missing required fields: content and date" },
         { status: 400 }
       );
+    }
+
+    // Ensure date is in Vietnam timezone if not already set by client
+    // Only override if it's the current time (within 1 second)
+    const clientDate = new Date(body.date);
+    const now = new Date();
+    if (Math.abs(clientDate.getTime() - now.getTime()) < 1000) {
+      body.date = getCurrentVietnamDate();
     }
 
     // Check if the table exists
