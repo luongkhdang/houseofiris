@@ -41,6 +41,45 @@ export interface Feedback {
   replies?: string;
 }
 
+// Helper function to check if table exists
+async function checkFeedbackTableExists() {
+  try {
+    console.log("Checking if feedbacks table exists...");
+
+    // Try to query the table first
+    const { error } = await supabase.from("feedbacks").select("id").limit(1);
+
+    // If the table doesn't exist (42P01 error), we need to create it
+    if (error && error.code === "42P01") {
+      console.error("Feedbacks table does not exist:", error.message);
+      console.log(
+        "Please create the feedbacks table manually in Supabase dashboard"
+      );
+      console.log(`
+SQL to run in Supabase SQL Editor:
+
+CREATE TABLE IF NOT EXISTS public.feedbacks (
+  id SERIAL PRIMARY KEY,
+  date TIMESTAMP NOT NULL,
+  content TEXT NOT NULL,
+  replies TEXT DEFAULT '..'
+);
+      `);
+      return false;
+    } else if (error) {
+      // Some other error occurred
+      console.error("Error checking for table:", error);
+      return false;
+    } else {
+      console.log("Feedbacks table exists");
+      return true;
+    }
+  } catch (error) {
+    console.error("Error in checkFeedbackTableExists:", error);
+    return false;
+  }
+}
+
 // GET: Retrieve all feedbacks sorted from newest to oldest
 export async function GET() {
   // Print environment variables for debugging (only in development)
@@ -56,6 +95,18 @@ export async function GET() {
   console.log("GET /api/feedbacks - Starting request");
 
   try {
+    // First check if the table exists
+    const tableExists = await checkFeedbackTableExists();
+    if (!tableExists) {
+      return NextResponse.json(
+        {
+          error:
+            "Feedbacks table does not exist. Please create it in Supabase dashboard.",
+        },
+        { status: 500 }
+      );
+    }
+
     // Query all feedbacks ordered by date (newest first)
     const { data, error } = await supabase
       .from("feedbacks")
@@ -92,6 +143,18 @@ export async function POST(req: Request) {
       return NextResponse.json(
         { error: "Missing required fields: content and date" },
         { status: 400 }
+      );
+    }
+
+    // Check if the table exists
+    const tableExists = await checkFeedbackTableExists();
+    if (!tableExists) {
+      return NextResponse.json(
+        {
+          error:
+            "Feedbacks table does not exist. Please create it in Supabase dashboard.",
+        },
+        { status: 500 }
       );
     }
 
