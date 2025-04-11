@@ -16,9 +16,21 @@
 import { NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
 
-// Create Supabase client
-const supabaseUrl = process.env.SUPABASE_URL || "";
-const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY || "";
+// Create Supabase client with better error handling for environment variables
+if (!process.env.SUPABASE_URL) {
+  console.error("SUPABASE_URL environment variable is not set");
+}
+
+if (!process.env.SUPABASE_SERVICE_ROLE_KEY) {
+  console.error("SUPABASE_SERVICE_ROLE_KEY environment variable is not set");
+}
+
+// Use a default URL for development if not available (will show a clear error in the console)
+const supabaseUrl = process.env.SUPABASE_URL || "https://example.supabase.co";
+const supabaseKey =
+  process.env.SUPABASE_SERVICE_ROLE_KEY || "your-service-role-key";
+
+// Create the client
 const supabase = createClient(supabaseUrl, supabaseKey);
 
 // Define the interface for feedback
@@ -31,6 +43,16 @@ export interface Feedback {
 
 // GET: Retrieve all feedbacks sorted from newest to oldest
 export async function GET() {
+  // Print environment variables for debugging (only in development)
+  if (process.env.NODE_ENV === "development") {
+    console.log("Environment variables:");
+    console.log("SUPABASE_URL:", process.env.SUPABASE_URL ? "Set" : "Not set");
+    console.log(
+      "SUPABASE_SERVICE_ROLE_KEY:",
+      process.env.SUPABASE_SERVICE_ROLE_KEY ? "Set" : "Not set"
+    );
+  }
+
   console.log("GET /api/feedbacks - Starting request");
 
   try {
