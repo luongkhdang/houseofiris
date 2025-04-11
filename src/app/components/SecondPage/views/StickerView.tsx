@@ -7,39 +7,50 @@ const MAX_OPEN_PER_PACK = 3;
 const GRID_COLUMNS = 4;
 const GRID_CELL_SIZE = 96;
 const ADJUSTED_CELL_SIZE = GRID_CELL_SIZE - 30;
-const CURRENT_CREDIT = 30;
+const CURRENT_CREDIT = 34;
 
 interface DraggableStickerProps {
-    sticker: string;
-    initialPosition: { x: number; y: number };
-    gridHeight: number;
-  }
-  
-  const DraggableSticker: React.FC<DraggableStickerProps> = ({ sticker, initialPosition, gridHeight }) => (
-    <motion.div
-      className="sticker-container"
-      drag
-      dragConstraints={{ left: 10, right: 200, top: -100, bottom: Math.max(0, gridHeight - GRID_CELL_SIZE + 100) }}
-      dragTransition={{ bounceStiffness: 100, bounceDamping: 10 }}
-      initial={{ x: initialPosition.x, y: initialPosition.y }}
-      whileTap={{ scale: 0.9 }}
-    >
-      <Image
-        src={`${STICKER_FOLDER}${sticker}`}
-        alt={`Sticker ${sticker}`}
-        width={80}
-        height={80}
-        className="sticker-image"
-      />
-    </motion.div>
-  );
+  sticker: string;
+  initialPosition: { x: number; y: number };
+  gridHeight: number;
+}
+
+const DraggableSticker: React.FC<DraggableStickerProps> = ({
+  sticker,
+  initialPosition,
+  gridHeight,
+}) => (
+  <motion.div
+    className="sticker-container"
+    drag
+    dragConstraints={{
+      left: 10,
+      right: 200,
+      top: -100,
+      bottom: Math.max(0, gridHeight - GRID_CELL_SIZE + 100),
+    }}
+    dragTransition={{ bounceStiffness: 100, bounceDamping: 10 }}
+    initial={{ x: initialPosition.x, y: initialPosition.y }}
+    whileTap={{ scale: 0.9 }}
+  >
+    <Image
+      src={`${STICKER_FOLDER}${sticker}`}
+      alt={`Sticker ${sticker}`}
+      width={80}
+      height={80}
+      className="sticker-image"
+    />
+  </motion.div>
+);
 
 const StickerView = () => {
   const [stickerList, setStickerList] = useState([]);
   const [collectedStickers, setCollectedStickers] = useState<string[]>(
-    typeof window !== "undefined" ? JSON.parse(localStorage.getItem("collectedStickers") || "[]") : []
+    typeof window !== "undefined"
+      ? JSON.parse(localStorage.getItem("collectedStickers") || "[]")
+      : []
   );
-  
+
   const [totalCredit, setTotalCredit] = useState(CURRENT_CREDIT);
 
   const totalCollectedStickers = collectedStickers.length;
@@ -53,14 +64,13 @@ const StickerView = () => {
   const [newStickers, setNewStickers] = useState<string[]>([]);
   const [isOpening, setIsOpening] = useState(false);
   const [showPack, setShowPack] = useState(true);
-  
+
   const stickerGridRef = useRef<HTMLDivElement | null>(null);
   const [gridHeight, setGridHeight] = useState(0);
 
   useEffect(() => {
     fetchStickerList();
   }, []);
-
 
   useEffect(() => {
     if (stickerGridRef.current) {
@@ -69,7 +79,10 @@ const StickerView = () => {
   }, [collectedStickers]);
   useEffect(() => {
     if (typeof window !== "undefined") {
-      localStorage.setItem("collectedStickers", JSON.stringify(collectedStickers));
+      localStorage.setItem(
+        "collectedStickers",
+        JSON.stringify(collectedStickers)
+      );
     }
     if (stickerGridRef.current) {
       setGridHeight(stickerGridRef.current.clientHeight);
@@ -87,8 +100,13 @@ const StickerView = () => {
   };
 
   const getRandomStickers = () => {
-    const remainingStickers = stickerList.filter((sticker) => !collectedStickers.includes(sticker));
-    const count = Math.min(Math.floor(Math.random() * MAX_OPEN_PER_PACK) + 1, remainingStickers.length);
+    const remainingStickers = stickerList.filter(
+      (sticker) => !collectedStickers.includes(sticker)
+    );
+    const count = Math.min(
+      Math.floor(Math.random() * MAX_OPEN_PER_PACK) + 1,
+      remainingStickers.length
+    );
     const selectedStickers: string[] = [];
 
     while (selectedStickers.length < count) {
@@ -150,13 +168,26 @@ const StickerView = () => {
           {showPack && (
             <motion.div
               initial={{ opacity: 1, scale: 1 }}
-              animate={isOpening ? { rotate: [0, -3, 3, -3, 3, 0], scale: [1, 1.05, 0.9, 1.1, 0] } : {}}
+              animate={
+                isOpening
+                  ? {
+                      rotate: [0, -3, 3, -3, 3, 0],
+                      scale: [1, 1.05, 0.9, 1.1, 0],
+                    }
+                  : {}
+              }
               exit={{ opacity: 0, scale: 0 }}
               transition={{ duration: 0.5, repeat: isOpening ? 2 : 0 }}
               className="absolute cursor-pointer"
               onClick={openPack}
             >
-              <Image src="/sticker-pack.png" alt="Sticker Pack" width={60} height={60} className="sticker-pack" />
+              <Image
+                src="/sticker-pack.png"
+                alt="Sticker Pack"
+                width={60}
+                height={60}
+                className="sticker-pack"
+              />
             </motion.div>
           )}
         </AnimatePresence>
@@ -177,9 +208,18 @@ const StickerView = () => {
                 rotate: (index - 1) * 15, // Slight rotation effect
               }}
               exit={{ opacity: 0 }}
-                transition={{ duration: 0.5, delay: index * 0.2, exit: { duration: 2 } }}
+              transition={{
+                duration: 0.5,
+                delay: index * 0.2,
+                exit: { duration: 2 },
+              }}
             >
-              <Image src={`${STICKER_FOLDER}${sticker}`} alt={`Sticker ${sticker}`} width={80} height={80} />
+              <Image
+                src={`${STICKER_FOLDER}${sticker}`}
+                alt={`Sticker ${sticker}`}
+                width={80}
+                height={80}
+              />
             </motion.div>
           ))}
         </AnimatePresence>
@@ -188,9 +228,26 @@ const StickerView = () => {
       {/* Sticker Collection Notebook */}
       <div className="notebook">
         <h2 className="notebook-title">📒 My Sticker Notebook</h2>
-        <div className="sticker-grid" ref={stickerGridRef} style={{ minHeight: `${Math.ceil(collectedStickers.length / GRID_COLUMNS) * ADJUSTED_CELL_SIZE}px` }}>
+        <div
+          className="sticker-grid"
+          ref={stickerGridRef}
+          style={{
+            minHeight: `${
+              Math.ceil(collectedStickers.length / GRID_COLUMNS) *
+              ADJUSTED_CELL_SIZE
+            }px`,
+          }}
+        >
           {collectedStickers.map((sticker, index) => (
-            <DraggableSticker key={sticker} sticker={sticker} initialPosition={{ x: (index % GRID_COLUMNS) * ADJUSTED_CELL_SIZE, y: Math.floor(index / GRID_COLUMNS) * ADJUSTED_CELL_SIZE }} gridHeight={gridHeight} />
+            <DraggableSticker
+              key={sticker}
+              sticker={sticker}
+              initialPosition={{
+                x: (index % GRID_COLUMNS) * ADJUSTED_CELL_SIZE,
+                y: Math.floor(index / GRID_COLUMNS) * ADJUSTED_CELL_SIZE,
+              }}
+              gridHeight={gridHeight}
+            />
           ))}
         </div>
       </div>
