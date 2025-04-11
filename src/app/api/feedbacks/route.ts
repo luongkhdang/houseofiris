@@ -41,6 +41,39 @@ export interface Feedback {
   replies?: string;
 }
 
+// Timezone utilities
+const TIMEZONES = {
+  PACIFIC: "America/Los_Angeles",
+};
+
+// Helper function to get current date in Pacific timezone
+const getCurrentPacificDate = (): string => {
+  const now = new Date();
+  // Convert to Pacific time for storage
+  const pacificTime = new Date(
+    now.toLocaleString("en-US", { timeZone: TIMEZONES.PACIFIC })
+  );
+  return pacificTime.toISOString();
+};
+
+// Helper function to ensure date is in Pacific timezone
+const ensurePacificTimezone = (dateString: string): string => {
+  try {
+    const date = new Date(dateString);
+    // If date is valid, convert to Pacific timezone
+    if (!isNaN(date.getTime())) {
+      return new Date(
+        date.toLocaleString("en-US", { timeZone: TIMEZONES.PACIFIC })
+      ).toISOString();
+    }
+    // If invalid date, return current Pacific time
+    return getCurrentPacificDate();
+  } catch (error) {
+    console.error("Invalid date format:", error);
+    return getCurrentPacificDate();
+  }
+};
+
 // Helper function to check if table exists
 async function checkFeedbackTableExists() {
   try {
@@ -79,15 +112,6 @@ CREATE TABLE IF NOT EXISTS public.feedbacks (
     return false;
   }
 }
-
-// Helper function to get current date in Vietnam timezone
-const getCurrentVietnamDate = () => {
-  const now = new Date();
-  const vietnamTime = new Date(
-    now.toLocaleString("en-US", { timeZone: "Asia/Ho_Chi_Minh" })
-  );
-  return vietnamTime.toISOString();
-};
 
 // GET: Retrieve all feedbacks sorted from newest to oldest
 export async function GET() {
@@ -155,13 +179,9 @@ export async function POST(req: Request) {
       );
     }
 
-    // Ensure date is in Vietnam timezone if not already set by client
-    // Only override if it's the current time (within 1 second)
-    const clientDate = new Date(body.date);
-    const now = new Date();
-    if (Math.abs(clientDate.getTime() - now.getTime()) < 1000) {
-      body.date = getCurrentVietnamDate();
-    }
+    // Always ensure the date is in Pacific timezone
+    body.date = ensurePacificTimezone(body.date);
+    console.log(`Date stored in Pacific timezone: ${body.date}`);
 
     // Check if the table exists
     const tableExists = await checkFeedbackTableExists();

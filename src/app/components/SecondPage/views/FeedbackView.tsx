@@ -8,10 +8,16 @@ interface Feedback {
   replies?: string;
 }
 
-// Helper function to convert to Vietnam timezone with MM/DD/YYYY h:MM AM/PM format
-const formatDateToVietnamTime = (dateString: string) => {
+// Timezone utilities
+const TIMEZONES = {
+  PACIFIC: "America/Los_Angeles",
+  VIETNAM: "Asia/Ho_Chi_Minh",
+};
+
+// Convert date to specified timezone with MM/DD/YYYY h:MM AM/PM format
+const formatDateInTimezone = (dateString: string, timezone: string) => {
   const options: Intl.DateTimeFormatOptions = {
-    timeZone: "Asia/Ho_Chi_Minh",
+    timeZone: timezone,
     month: "numeric",
     day: "numeric",
     year: "numeric",
@@ -23,13 +29,14 @@ const formatDateToVietnamTime = (dateString: string) => {
   return new Date(dateString).toLocaleString("en-US", options);
 };
 
-// Get current date in Vietnam timezone
-const getCurrentVietnamDate = () => {
+// Get current date in Pacific timezone (for storage)
+const getCurrentPacificDate = (): string => {
   const now = new Date();
-  const vietnamTime = new Date(
-    now.toLocaleString("en-US", { timeZone: "Asia/Ho_Chi_Minh" })
+  // Convert to Pacific time for storage
+  const pacificTime = new Date(
+    now.toLocaleString("en-US", { timeZone: TIMEZONES.PACIFIC })
   );
-  return vietnamTime.toISOString();
+  return pacificTime.toISOString();
 };
 
 const FeedbackView: React.FC = () => {
@@ -37,6 +44,9 @@ const FeedbackView: React.FC = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [feedbackPosts, setFeedbackPosts] = useState<Feedback[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [displayTimezone, setDisplayTimezone] = useState<string>(
+    TIMEZONES.VIETNAM
+  );
 
   useEffect(() => {
     setIsLoading(true);
@@ -62,8 +72,9 @@ const FeedbackView: React.FC = () => {
     try {
       await emailService.sendFeedback(feedback);
 
+      // Always store date in Pacific timezone
       const newFeedback = {
-        date: getCurrentVietnamDate(),
+        date: getCurrentPacificDate(),
         content: feedback,
       };
 
@@ -98,6 +109,13 @@ const FeedbackView: React.FC = () => {
     }
   };
 
+  // Toggle timezone display
+  const toggleTimezone = () => {
+    setDisplayTimezone((prev) =>
+      prev === TIMEZONES.VIETNAM ? TIMEZONES.PACIFIC : TIMEZONES.VIETNAM
+    );
+  };
+
   return (
     <div className="space-y-4">
       <h1 className="text-2xl font-bold">📝 Hộp Thư 🐈</h1>
@@ -119,6 +137,18 @@ const FeedbackView: React.FC = () => {
         </button>
       </div>
 
+      {/* Timezone Toggle */}
+      <div className="flex justify-end mb-2">
+        <button
+          onClick={toggleTimezone}
+          className="text-sm bg-gray-200 hover:bg-gray-300 px-3 py-1 rounded"
+        >
+          {displayTimezone === TIMEZONES.VIETNAM
+            ? "🇻🇳 Vietnam Time"
+            : "🇺🇸 Pacific Time"}
+        </button>
+      </div>
+
       {/* Display Submitted Feedback as Emails */}
       <div className="post-container">
         <h2 className="title text-xl font-bold">🕊️ Love Letter Box </h2>
@@ -136,7 +166,9 @@ const FeedbackView: React.FC = () => {
                     className="email-container"
                   >
                     <p className="email-footer">
-                      <small>{formatDateToVietnamTime(post.date)}</small>
+                      <small>
+                        {formatDateInTimezone(post.date, displayTimezone)}
+                      </small>
                     </p>
                     <p className="email-header">
                       <strong>Girlfriend🐎</strong> 💌:
