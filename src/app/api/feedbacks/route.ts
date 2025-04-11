@@ -51,12 +51,19 @@ function getErrorMessage(error: unknown): string {
   return toErrorWithMessage(error).message;
 }
 
-// Create a PostgreSQL connection pool with more detailed configuration
+// Extract connection string - needed to properly handle SSL
+const connectionString = process.env.POSTGRES_URL;
+const useSSL = true;
+
+// Create a PostgreSQL connection pool with fixed SSL configuration
 const pool = new Pool({
-  connectionString: process.env.POSTGRES_URL,
-  ssl: {
-    rejectUnauthorized: false, // Required for some cloud platforms
-  },
+  connectionString: connectionString,
+  // This SSL configuration is critical for Supabase connections
+  ssl: useSSL
+    ? {
+        rejectUnauthorized: false, // Required for self-signed certificates
+      }
+    : undefined,
   max: 5, // Maximum number of clients
   idleTimeoutMillis: 30000, // Close idle clients after 30 seconds
   connectionTimeoutMillis: 10000, // Return an error after 10 seconds if connection not established
@@ -143,25 +150,34 @@ export async function GET() {
   console.log("GET /api/feedbacks - Starting request");
   let client;
   try {
-    // First ensure connection is working
-    console.log("Testing Postgres connection...");
-    client = await pool.connect();
-    console.log("Successfully connected to Postgres");
+    // First try to connect to Postgres
+    try {
+      console.log("Testing Postgres connection...");
+      client = await pool.connect();
+      console.log("Successfully connected to Postgres");
 
-    // Ensure table exists before querying
-    await ensureFeedbackTable();
+      // Ensure table exists before querying
+      await ensureFeedbackTable();
 
-    // Query all feedbacks ordered by date (newest first)
-    const result = await client.query(`
-      SELECT id, date, content, replies 
-      FROM feedbacks 
-      ORDER BY date DESC;
-    `);
-    console.log(
-      `GET /api/feedbacks - Retrieved ${result.rowCount} feedback items`
-    );
+      // Query all feedbacks ordered by date (newest first)
+      const result = await client.query(`
+        SELECT id, date, content, replies 
+        FROM feedbacks 
+        ORDER BY date DESC;
+      `);
+      console.log(
+        `GET /api/feedbacks - Retrieved ${result.rowCount} feedback items`
+      );
 
-    return NextResponse.json(result.rows);
+      return NextResponse.json(result.rows);
+    } catch (pgError) {
+      throw pgError; // re-throw to be caught by the outer try/catch
+    } finally {
+      if (client) {
+        client.release();
+        console.log("Released Postgres client");
+      }
+    }
   } catch (error: unknown) {
     console.error("Error reading feedbacks from Postgres:", error);
     console.log("Falling back to JSON file...");
@@ -178,11 +194,6 @@ export async function GET() {
       `GET /api/feedbacks - Retrieved ${feedbacks.length} feedback items from fallback file`
     );
     return NextResponse.json(feedbacks);
-  } finally {
-    if (client) {
-      client.release();
-      console.log("Released Postgres client");
-    }
   }
 }
 
